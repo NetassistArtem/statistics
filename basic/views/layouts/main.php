@@ -18,8 +18,11 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
+
+
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -35,29 +38,29 @@ AppAsset::register($this);
     ]);
 
 
-
-
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            ['label' => 'Test', 'url' => ['/users/index']],
-            ['label' => 'Charges', 'url' => 'charges', 'active' => ( Yii::$app->request->url == "/charges" || preg_match("/\/charges\/\d{1}-\d{4}/",Yii::$app->request->url)),
-            'items' =>[
-                ['label' => 'Общие графики', 'url' => '/charges',],
-                 ['label' => 'Детальные графики', 'url' => '/charges/5-2016',],
+            //  ['label' => 'Home', 'url' => ['/site/index']],
+            // ['label' => 'About', 'url' => ['/site/about']],
+            //   ['label' => 'Contact', 'url' => ['/site/contact']],
+            //   ['label' => 'Test', 'url' => ['/users/index']],
+            ['label' => 'Charges', 'url' => 'charges', 'active' => (Yii::$app->request->url == "/charges" || preg_match("/\/charges\/\d{1}-\d{4}/", Yii::$app->request->url)),
+                'items' => [
+                    ['label' => 'Общие графики', 'url' => '/charges',],
+                    ['label' => 'Детальные графики', 'url' => '/charges/5-2016',],
+                    ['label' => 'График с выбором периода', 'url' => '/charges/select-data',],
+                    ['label' => 'График сравнение по годам', 'url' => '/charges/multi-years',],
 
 //                ['label' => 'Домашние', 'url' => 'charges',],
 //                ['label' => 'Бизнес-домосеть', 'url' => 'charges#business_homenetwork',],
 //                ['label' => 'Бизнес-магистральные', 'url' => 'charges#business_trunk'],
 //                ['label' => 'Домосеть', 'url' => 'charges#homenetwork'],
 //                ['label' => 'Все', 'url' => 'charges#all']
-            ]
+                ]
             ],
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
+            ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post', ['class' => 'navbar-form'])
@@ -72,7 +75,6 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
-
 
 
     <div class="container">

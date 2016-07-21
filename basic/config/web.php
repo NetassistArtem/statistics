@@ -92,6 +92,46 @@ $config = [
                     'route' => 'site/no-data',
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
+                [
+                    'pattern' => 'charges/select-data',
+                    'route' => 'statistics/select-data',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'charges/select-data/table',
+                    'route' => 'statistics/get-data-table',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'charges/<type:[1-5]>-<year:20[0-9][0-9]>/line',
+                    'route' => 'statistics/get-data-line',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'charges/<type:[1-5]>-<year:20[0-9][0-9]>-<month:[01][0-9]>/line',
+                    'route' => 'statistics/get-data-line',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'charges/<type:[1-5]>/<year:20[0-9][0-9]><years:(-20[0-9][0-9]){1,8}>',
+                    'route' => 'statistics/charges-multi-year',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'charges/<type:[1-5]>/<year:20[0-9][0-9]><years:(-20[0-9][0-9]){1,8}>/table',
+                    'route' => 'statistics/get-data-table',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'charges/multi-years',
+                    'route' => 'statistics/select-data-multi-years',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'charges/multi-years/table',
+                    'route' => 'statistics/get-data-table',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
 
             ],
         ],

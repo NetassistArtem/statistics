@@ -45,9 +45,10 @@ class Charges extends Model
          * добавить проверку $scale $period_from,$period_to, $net_id, $user_class
          */
         $t = strlen($period_from)>1 ? strlen($period_from) : 2;
+        $t_to = strlen($period_to)>1 ? strlen($period_to) : 2;
         $e_from = 12-$t;
         $p_from = $period_from *pow(10,$e_from);
-        $e_to = 12-strlen($period_to);
+        $e_to = 12-$t_to;
         $p_to = $period_to *pow(10,$e_to);
         $params = array(
             ':period_from' => $p_from,
@@ -58,7 +59,7 @@ class Charges extends Model
         );
 
 if(!$user_class_unuse){
-        $data = Yii::$app->db->createCommand("select round(pay_db.pay_stat.ptime_stamp/$scale) as ts,  accounts.org_id, net_id,pay_class,admin_id,accounts.acc_id,user_name, comment,sum((pay_db.pay_stat.account_inc- pay_db.pay_stat.credit_inc) /1000) as pay
+        $data = Yii::$app->db->createCommand("select round(pay_db.pay_stat.ptime_stamp/$scale) as ts, sum((pay_db.pay_stat.account_inc- pay_db.pay_stat.credit_inc) /1000) as pay
 from pay_db.pay_stat inner join accounts where pay_db.pay_stat.acc_id=accounts.acc_id and
 pay_db.pay_stat.ptime_stamp between :period_from and :period_to  and accounts.net_id $net_id_operator :net_id and  account_inc-credit_inc>0 and pay_class<>0 and user_class= :user_class and accounts.org_id<>3 and net_id<>1 group by ts")
             ->bindValues($params)
@@ -74,17 +75,17 @@ pay_db.pay_stat.ptime_stamp between :period_from and :period_to  and accounts.ne
         ':net_id' => $net_id
     );
 
-    $data = Yii::$app->db->createCommand("select round(pay_db.pay_stat.ptime_stamp/$scale) as ts,  accounts.org_id, net_id,pay_class,admin_id,accounts.acc_id,user_name, comment,sum((pay_db.pay_stat.account_inc- pay_db.pay_stat.credit_inc) /1000) as pay
+    $data = Yii::$app->db->createCommand("select round(pay_db.pay_stat.ptime_stamp/$scale) as ts,sum((pay_db.pay_stat.account_inc- pay_db.pay_stat.credit_inc) /1000) as pay
 from pay_db.pay_stat inner join accounts where pay_db.pay_stat.acc_id=accounts.acc_id and
 pay_db.pay_stat.ptime_stamp between :period_from and :period_to  and accounts.net_id $net_id_operator :net_id and  account_inc-credit_inc>0 and pay_class<>0  and accounts.org_id<>3 and net_id<>1 group by ts")
         ->bindValues($params)
         ->queryAll();
 
 
-
 }else{
     throw new Exception('Не правильный параметр $user_class_unuse');
 }
+
 
         return $data;
     }
@@ -92,15 +93,8 @@ pay_db.pay_stat.ptime_stamp between :period_from and :period_to  and accounts.ne
     public function attributeLabels()
     {
         return [
-            'ts' => 'Ts',
-            'Org_id' => 'Org_id',
-            'net_id' => 'Net_id',
-            'pay_class' => 'Pay_class',
-            'admin_id' => 'Admin_id',
-            'acc_id' => 'Acc_id',
-            'user_name' => 'User_name',
-            'comment' => 'Comment',
-            'pay' => 'Pay',
+            'ts' => 'Время',
+            'pay' => 'Платежи',
         ];
     }
 

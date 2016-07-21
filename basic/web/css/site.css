@@ -134,6 +134,16 @@ a.desc:after {
     top: 5px;
 
 }
+
+.batton_position_3{
+    left: 25%;
+    top: 5px;
+
+}
+.batton_position_4{
+    left: 40%;
+    top: 5px;
+}
 @media (min-width: 750px){
     .month_details{
         height: 248px;
@@ -156,6 +166,15 @@ a.desc:after {
         left: 0;
         top: 5px;
 
+    }
+    .batton_position_3{
+        left: 1%;
+        top: 5px;
+
+    }
+    .batton_position_4{
+        left: 1%;
+        top: 5px;
     }
     .btn-lg{
         padding: 6px 12px;
@@ -182,10 +201,20 @@ a.desc:after {
         top: 5px;
 
     }
+
     .batton_position_1{
         left: 0;
         top: 5px;
 
+    }
+    .batton_position_3{
+        left: 10%;
+        top: 5px;
+
+    }
+    .batton_position_4{
+        left: 23%;
+        top: 5px;
     }
 }
 @media (min-width: 1200px){
@@ -216,6 +245,14 @@ a.desc:after {
         top: 5px;
 
     }
+    .batton_position_3{
+        left: 25%;
+        top: 5px;
+
+    }.batton_position_4{
+         left: 40%;
+         top: 5px;
+     }
 
 }
 @media (max-width: 750px){
@@ -240,6 +277,15 @@ a.desc:after {
         left: 1%;
         top: 5px;
 
+    }
+    .batton_position_3{
+        left: 1%;
+        top: 5px;
+
+    }
+    .batton_position_4{
+        left: 1%;
+        top: 5px;
     }
     .btn-lg{
         padding: 6px 12px;
@@ -329,6 +375,18 @@ a:hover span.month_column{
 .btn-color-5{
     background-color: rgb(105, 105, 105);
 
+}
+.button-position{
+
+    margin-top: 7px;
+
+}
+.form-group {
+    margin-bottom: 0;
+}
+
+div.checkbox_left label {
+    margin-left: 10px;
 }
 
 

@@ -86,7 +86,6 @@ use yii\bootstrap\NavBar;
 </div>
 
 
-
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
         <?= Html::img("@web/images/$chart_name_business_trunk.png", ['class' => 'img-responsive']) ?>

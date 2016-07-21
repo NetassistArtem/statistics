@@ -6,7 +6,7 @@ use Yii;
 use app;
 
 $url_table = Yii::$app->request->url."/table";
-$url_total = '/charges';
+$url_compare = '/charges/multi-years';
 
 ?>
 
@@ -20,6 +20,7 @@ $url_total = '/charges';
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-left '],
         'items' => $menu_items_years,
+
     ]);
     ?>
 
@@ -32,12 +33,12 @@ $url_total = '/charges';
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-left'],
         'items' => [
-            ['label' => 'Домашние', 'url' => "/charges/1-$year", 'active' => "/charges/1-$year" == Yii::$app->request->url],
-            ['label' => 'Бизнес-домосеть', 'url' => "/charges/2-$year", 'active' => "/charges/2-$year" == Yii::$app->request->url],
-            ['label' => 'Бизнес-магистральные', 'url' => "/charges/3-$year", 'active' => "/charges/3-$year" == Yii::$app->request->url],
-            ['label' => 'Домосеть', 'url' => "/charges/4-$year", 'active' => "/charges/4-$year" == Yii::$app->request->url],
-            ['label' => 'Все', 'url' => "/charges/5-$year", 'active' => "/charges/5-$year" == Yii::$app->request->url],
-            "<li class='batton_position_1'><p ><a class='btn btn-default btn-lg' href='$url_total'> График общий </a></p></li>",
+            ['label' => 'Домашние', 'url' => "/charges/1-$year", 'active' => ("/charges/1-$year" == Yii::$app->request->url || "/charges/1-$year/line" == Yii::$app->request->url)],
+            ['label' => 'Бизнес-домосеть', 'url' => "/charges/2-$year", 'active' => ("/charges/2-$year" == Yii::$app->request->url || "/charges/2-$year/line" == Yii::$app->request->url)],
+            ['label' => 'Бизнес-магистральные', 'url' => "/charges/3-$year", 'active' => ("/charges/3-$year" == Yii::$app->request->url || "/charges/3-$year/line" == Yii::$app->request->url)],
+            ['label' => 'Домосеть', 'url' => "/charges/4-$year", 'active' => ("/charges/4-$year" == Yii::$app->request->url || "/charges/4-$year/line" == Yii::$app->request->url)],
+            ['label' => 'Все', 'url' => "/charges/5-$year", 'active' => ("/charges/5-$year" == Yii::$app->request->url || "/charges/5-$year/line" == Yii::$app->request->url)],
+            "<li class='batton_position_1'><p ><a class='btn btn-default btn-lg' href='$url_compare'> График сравнения </a></p></li>",
             "<li class='batton_position_2'><p ><a class='btn btn-default btn-lg' href=".$url_table.">Таблица данных</a></p></li>"
         ],
     ]);
@@ -54,7 +55,7 @@ $url_total = '/charges';
     <div class="col-lg-12 col-md-12 col-sm-12">
         <?= Html::img("@web/images/$name_file.png", ['class' => 'img-responsive']) ?>
     </div>
-
+<?php if($line !=1): ?>
         <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12 month_details">
             <div class="row-fluid"></div>
             <a href="/charges/<?=$user_type ?>-<?=$year ?>-01">
@@ -95,6 +96,6 @@ $url_total = '/charges';
             </a>
         </div>
 
-
+<?php endif ?>
 </div>
 
