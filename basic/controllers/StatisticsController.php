@@ -828,7 +828,7 @@ class StatisticsController extends Controller
         if (isset($url_array[3]) && $url_array[3] == 'line') {
             $data_year = $this->totalCharges($chargesModel, "Ymd", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse);
 
-            $max_y_scale = max($data_year['data_charge']) < 600 ? 600 :(max($data_year['data_charge']) +50);
+            $max_y_scale = max($data_year['data_charge']) < 60 ? 60 :(max($data_year['data_charge']) +5);
 
             $this->chartCreater2($users_type['name_file'], $graph_name, $data_year['data_charge'], $data_year['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y-m-d', $max_y_scale, 90, $this->colors[$param_array[0]], 7);
 
