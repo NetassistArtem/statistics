@@ -98,6 +98,11 @@ $config = [
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
                 [
+                    'pattern' => 'charges/select-data/line',
+                    'route' => 'statistics/get-data-line',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
                     'pattern' => 'charges/select-data/table',
                     'route' => 'statistics/get-data-table',
                     //'defaults' => ['page' => 1, 'tag' => ''],

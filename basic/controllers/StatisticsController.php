@@ -567,10 +567,10 @@ class StatisticsController extends Controller
 
         $data = $chargesModel->ChargesByNetwork($scale, $start_period, $end_period, $net_id_operator, $net_id, $user_class, $user_class_unuse);
 
-        $e_p = $end_period<100 ? $end_period :round($end_period/100);
-        $s_p = $start_period<100 ? $start_period : round($end_period/100);
+        $e_p = $end_period < 100 ? $end_period : round($end_period / 100);
+        $s_p = $start_period < 100 ? $start_period : round($end_period / 100);
 
-        if ($format == 'Ym' && $e_p-$s_p<=1) {
+        if ($format == 'Ym' && $e_p - $s_p <= 1) {
 
             $data_2 = array();
 
@@ -828,14 +828,14 @@ class StatisticsController extends Controller
         if (isset($url_array[3]) && $url_array[3] == 'line') {
             $data_year = $this->totalCharges($chargesModel, "Ymd", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse);
 
-            $max_y_scale = max($data_year['data_charge']) < 60 ? 60 :(max($data_year['data_charge']) +5);
+            $max_y_scale = max($data_year['data_charge']) < 60 ? 60 : (max($data_year['data_charge']) + 5);
 
             $this->chartCreater2($users_type['name_file'], $graph_name, $data_year['data_charge'], $data_year['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y-m-d', $max_y_scale, 90, $this->colors[$param_array[0]], 7);
 
         } else {
             $data_year = $this->totalCharges($chargesModel, "Ym", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse);
 
-            $max_y_scale = max($data_year['data_charge']) < 600 ? 600 :(max($data_year['data_charge']) +50);
+            $max_y_scale = max($data_year['data_charge']) < 600 ? 600 : (max($data_year['data_charge']) + 50);
 
             $month_number = count($data_year['data_time']);
             if ($month_number < 12) {
@@ -928,14 +928,14 @@ class StatisticsController extends Controller
         if (isset($url_array[3]) && $url_array[3] == 'line') {
             $data_month = $this->totalCharges($chargesModel, "Ymd", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse);
 
-            $max_y_scale = max($data_month['data_charge']) < 50 ? 50 :(max($data_month['data_charge']) +5);
+            $max_y_scale = max($data_month['data_charge']) < 50 ? 50 : (max($data_month['data_charge']) + 5);
             $text_angle = count($data_month['data']) < 15 ? 0 : 90;
 
             $this->chartCreater1($users_type['name_file'], $graph_name, $data_month['data_charge'], $data_month['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y-m-d', $max_y_scale, $text_angle, $this->colors[$param_array[0]], 1);
 
         } else {
             $data_month = $this->totalCharges($chargesModel, "Ymd", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse);
-            $max_y_scale = max($data_month['data_charge']) < 50 ? 50 :(max($data_month['data_charge']) +5);
+            $max_y_scale = max($data_month['data_charge']) < 50 ? 50 : (max($data_month['data_charge']) + 5);
 
             $text_angle = count($data_month['data']) < 15 ? 0 : 90;
             $this->chartCreater3($users_type['name_file'], $graph_name, $data_month['data_charge'], $data_month['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y-m-d', $max_y_scale, $text_angle, $this->colors[$param_array[0]]);
@@ -1012,6 +1012,8 @@ class StatisticsController extends Controller
         } elseif ($n == 2 && $url_a[2] != 'select-data') {
 
             return $this->actionChargesYear();
+        } elseif ($n == 2 && $url_a[2] == 'select-data') {
+            return $this->actionSelectData();
 
         } elseif ($n == 1) {
             return 2;
@@ -1027,7 +1029,6 @@ class StatisticsController extends Controller
 
         $chargesModel = new Charges();
         $modelChargesForm = new ChargesForm();
-
 
 
         $u = explode('?', Yii::$app->request->url);
@@ -1048,7 +1049,7 @@ class StatisticsController extends Controller
                 $end_period = (Yii::$app->request->post('ChargesForm')['year_to'] + 1);
 
 
-                $modelChargesForm->year_to = ($end_period-1);
+                $modelChargesForm->year_to = ($end_period - 1);
                 $modelChargesForm->year_from = $start_period;
                 $modelChargesForm->users_type = $users_type;
             } else {
@@ -1076,15 +1077,18 @@ class StatisticsController extends Controller
 
         $graph_name = $users_type_array['name'] . '. Период с  ' . ($start_period + 2000) . '-01 по, ' . ($end_period + 1999) . '-12.';
 
-        $max_y_scale = max($data['data_charge']) < 600 ? 600 :(max($data['data_charge']) +50);
+        $max_y_scale = max($data['data_charge']) < 600 ? 600 : (max($data['data_charge']) + 50);
 
         $text_angle = count($data['data']) < 15 ? 0 : 90;
         $this->chartCreater3($users_type_array['name_file'], $graph_name, $data['data_charge'], $data['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y-m', $max_y_scale, $text_angle, $this->colors[$users_type]);
 
         if (isset($url_array[3])) {
-
+            $line = null;
             if ($url_array[3] == 'table') {
                 $views_name = 'get_data_table';
+            } elseif ($url_array[3] == 'line') {
+                $views_name = 'select-data';
+                $line = 1;
             } else {
                 throw new Exception('Страница не найдена');
             }
@@ -1099,7 +1103,6 @@ class StatisticsController extends Controller
         for ($i = 1; $i <= 5; $i++) {
             $users_type_a[$i] = $this->usersType($i)['name'];
         }
-
 
         return $this->render($views_name, [
             'label' => $label,
@@ -1139,51 +1142,50 @@ class StatisticsController extends Controller
         $chargesModel = new Charges();
 
 
-
         $label = $chargesModel->attributeLabels();
 
         $graph_name = $users_type['name'] . ', ' . $url_array[3] . ' год';
         $chart_name_year = 'charges_by_network_all';
-/**
-        if (isset($url_array[3]) && $url_array[3] == 'line') {
-            $data_year = $this->totalCharges($chargesModel, "Ymd", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse);
+        /**
+         * if (isset($url_array[3]) && $url_array[3] == 'line') {
+         * $data_year = $this->totalCharges($chargesModel, "Ymd", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse);
+         *
+         * $this->chartCreater2($users_type['name_file'], $graph_name, $data_year['data_charge'], $data_year['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y-m-d', 60, 90, $this->colors[$url_array[2]], 7);
+         *
+         * $data_table_array = array();
+         *
+         * } else {
+         * */
+        $data_year = $this->totalCharges($chargesModel, "Ym", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse);
 
-            $this->chartCreater2($users_type['name_file'], $graph_name, $data_year['data_charge'], $data_year['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y-m-d', 60, 90, $this->colors[$url_array[2]], 7);
+        $data_year_f_s = $this->multiYearsDataParsing($data_year['data'], $start_period, $end_period);
+        $data_years_simple = $data_year_f_s['simple'];
+        $data_years_full = $data_year_f_s['full'];
 
-            $data_table_array = array();
+        $data_time = array();
+        for ($i = 1; $i <= 12; $i++) {
+            $data_time[] = $i;
+        }
+        // получение массивов с данными для оси y по указанным в урле годам $url_array[3]
+        $data_y_array = array();
+        $data_table_array = array();
 
-        } else {
- * */
-            $data_year = $this->totalCharges($chargesModel, "Ym", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse);
-
-            $data_year_f_s = $this->multiYearsDataParsing($data_year['data'], $start_period, $end_period);
-            $data_years_simple = $data_year_f_s['simple'];
-            $data_years_full = $data_year_f_s['full'];
-
-            $data_time = array();
-            for ($i = 1; $i <= 12; $i++) {
-                $data_time[] = $i;
-            }
-            // получение массивов с данными для оси y по указанным в урле годам $url_array[3]
-            $data_y_array = array();
-            $data_table_array = array();
-
-            foreach ($year_array as $v) {
-                $data_y_array[$v] = $data_years_simple[$v];
-                $data_table_array[$v] = $data_years_full[$v];
-            }
+        foreach ($year_array as $v) {
+            $data_y_array[$v] = $data_years_simple[$v];
+            $data_table_array[$v] = $data_years_full[$v];
+        }
         $data_max_array = array();
-       foreach($data_y_array as $v){
-           $data_max_array[] = max($v);
-       }
+        foreach ($data_y_array as $v) {
+            $data_max_array[] = max($v);
+        }
         $max_data = max($data_max_array);
 
-        $max_y_scale =$max_data < 600 ? 600 :($max_data +50);
+        $max_y_scale = $max_data < 600 ? 600 : ($max_data + 50);
 
-            $this->chartCreater5($users_type['name_file'], $graph_name, $data_y_array, $data_time, 'Выручка, тысяч грн', 'Дата, месяц', $max_y_scale, 0);
-    //    }
+        $this->chartCreater5($users_type['name_file'], $graph_name, $data_y_array, $data_time, 'Выручка, тысяч грн', 'Дата, месяц', $max_y_scale, 0);
+        //    }
 
-       $line = 0;
+        $line = 0;
         if (isset($url_array[4])) {
             if ($url_array[4] == 'table') {
                 $views_name = 'get_data_table';
@@ -1207,21 +1209,20 @@ class StatisticsController extends Controller
             'name' => $users_type['name'],
             'name_file' => $users_type['name_file'],
             'menu_items_years' => $this->getMenuItemsYears($url_array[2], $year_array, $line),
-            'date_today' => ((int)$end_period +1999)
+            'date_today' => ((int)$end_period + 1999)
 
-     //       'line' => $line
+            //       'line' => $line
         ]);
 
     }
 
-    public function actionSelectDataMultiYears ($years_get = null, $user_type_get = null)
+    public function actionSelectDataMultiYears($years_get = null, $user_type_get = null)
     {
         $chargesModel = new Charges();
-        $modelMultiYearsForm = new MultiYearsForm() ;
+        $modelMultiYearsForm = new MultiYearsForm();
         $u = explode('?', Yii::$app->request->url);
 
         $url_array = explode("/", $u[0]);
-
 
 
         $label = $chargesModel->attributeLabels();
@@ -1236,10 +1237,9 @@ class StatisticsController extends Controller
         $end_period = (Yii::$app->formatter->asDate('now', 'yyyy') - 1999);
 
         $years_array_full = array();
-        for($i = $year_start_array[0]; $i<= ((int)$end_period+1999); $i++){
+        for ($i = $year_start_array[0]; $i <= ((int)$end_period + 1999); $i++) {
             $years_array_full[] = $i;
         }
-
 
 
         if (Yii::$app->request->post()) {
@@ -1248,15 +1248,14 @@ class StatisticsController extends Controller
 
             $modelMultiYearsForm->users_type = $users_ty;
 
-        }elseif(isset($years_get) && isset($user_type_get)){
+        } elseif (isset($years_get) && isset($user_type_get)) {
 
 
-                $users_ty = $user_type_get;
+            $users_ty = $user_type_get;
             $year_array = explode('-', $years_get);
 
 
-
-        }else{
+        } else {
             $users_ty = 5;
             $years_number = Yii::$app->params['years-compare'];
 
@@ -1268,10 +1267,10 @@ class StatisticsController extends Controller
         $users_type = $this->usersType($users_ty);
 
         $years_string = '';
-        foreach($year_array as $v){
-            $years_string .= $v.'-';
+        foreach ($year_array as $v) {
+            $years_string .= $v . '-';
         }
-        $years_string = trim($years_string,'-');
+        $years_string = trim($years_string, '-');
 
 
         $user_class_unuse = $users_ty > 3 ? 1 : 0;
@@ -1294,21 +1293,18 @@ class StatisticsController extends Controller
         $data_table_array = array();
 
 
-
-
-
         foreach ($year_array as $v) {
             $data_y_array[$v] = $data_years_simple[$v];
             $data_table_array[$v] = $data_years_full[$v];
         }
 
         $data_max_array = array();
-        foreach($data_y_array as $v){
+        foreach ($data_y_array as $v) {
             $data_max_array[] = max($v);
         }
         $max_data = max($data_max_array);
 
-        $max_y_scale =$max_data < 600 ? 600 :($max_data +50);
+        $max_y_scale = $max_data < 600 ? 600 : ($max_data + 50);
 
         $this->chartCreater5($users_type['name_file'], $graph_name, $data_y_array, $data_time, 'Выручка, тысяч грн', 'Дата, месяц', $max_y_scale, 0);
 
@@ -1335,11 +1331,9 @@ class StatisticsController extends Controller
         }
 
         $year_year_array_full = array();
-        foreach($years_array_full as $v){
+        foreach ($years_array_full as $v) {
             $year_year_array_full[$v] = $v;
         }
-
-
 
 
         return $this->render($views_name, [
@@ -1360,10 +1354,7 @@ class StatisticsController extends Controller
         ]);
 
 
-
-
     }
-
 
 
 }

@@ -9,6 +9,7 @@ $url_table = Yii::$app->request->url . "/table?year_start=" . $start_period . '&
 $url_total = '/charges';
 $url_years = '/charges/' . $user_type . '-' . ($end_period + 1999);
 $url_compare = '/charges/multi-years';
+$url_line = '/charges/select-data/line?user_type='.$user_type.'&start_period='.$start_period.'&end_period='.$end_period;
 
 NavBar::begin([
     'options' => [
@@ -52,19 +53,23 @@ NavBar::begin([
     </div>
     <div class="row">
         <div class="  col-lg-2 col-md-2 col-sm-2   button-position">
-            <p><a class='btn btn-default btn-lg' href="<?= $url_table ?>">Таблица данных</a></p>
+            <p><a class='btn btn-default btn-lg' href="<?= $url_table ?>">Таблица    данных</a></p>
         </div>
 
-        <div class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1  col-lg-2 col-md-2 col-sm-2 button-position">
+        <div class="  col-lg-2 col-md-2 col-sm-2 button-position">
             <p><a class='btn btn-default btn-lg' href="<?= $url_years ?>">График по месяцам</a></p>
         </div>
 
-        <div class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1  col-lg-2 col-md-2 col-sm-2 button-position">
+        <div class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-lg-2 col-md-2 col-sm-2 button-position">
             <p><a class='btn btn-default btn-lg' href="<?= $url_total ?>"> График общий </a></p>
         </div>
 
-        <div class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1  col-lg-1 col-md-1 col-sm-1 button-position">
+        <div class=" col-lg-1 col-md-1 col-sm-1 button-position">
             <p><a class='btn btn-default btn-lg' href="<?= $url_compare ?>"> График сравнения </a></p>
+        </div>
+
+        <div class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1  col-lg-1 col-md-1 col-sm-1 button-position">
+            <p><a class='btn btn-default btn-lg' href="<?= $url_line ?>"> Линейный график </a></p>
         </div>
 
 
