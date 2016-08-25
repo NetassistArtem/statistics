@@ -6,8 +6,8 @@
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=193.104.254.29;dbname=alfa_db',
-    'username' => 'mon',
-    'password' => 'dfjhs7kff223hl',
+    'dsn' => '',
+    'username' => '',
+    'password' => '',
     'charset' => 'utf8',
 ];
