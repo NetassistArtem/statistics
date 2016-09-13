@@ -90,16 +90,18 @@ a.desc:after {
     margin: 0 0 15px 0;
 }
 
-.navbar-charges{
+.navbar-charges {
     position: fixed;
     right: 7%;
     left: 7%;
     z-index: 100;
 
 }
+
 .margin-top {
     margin-top: 70px;
 }
+
 .margin-bottom {
     height: 70px;
     margin-bottom: 70px;
@@ -107,49 +109,71 @@ a.desc:after {
 
 }
 
-.test{
+.test {
     height: 2px;
     background-color: #00aa00;
 }
-.t div{
 
+.t div {
 
 }
-.month_details{
-   /* background-color: #00aa00;
-    opacity: 0.05; */
+
+.month_details {
+    /* background-color: #00aa00;
+     opacity: 0.05; */
     height: 400px;
     margin-top: -490px;
     z-index: 102;
 
 }
 
-.batton_position_2{
+.batton_position_2 {
     left: 11%;
     top: 5px;
 
 }
-.batton_position_1{
+
+.batton_position_1 {
     left: 10%;
     top: 5px;
 
 }
 
-.batton_position_3{
+.batton_position_3 {
     left: 25%;
     top: 5px;
 
 }
-.batton_position_4{
+
+.batton_position_4 {
     left: 40%;
     top: 5px;
 }
-@media (min-width: 750px){
-    .month_details{
+.batton_position_5 {
+    left: -0.8%;
+    top: 5px;
+}
+
+.batton_position_6 {
+    left: -0.4%;
+    top: 5px;
+}
+.batton_position_7 {
+    left: 25%;
+    top: 5px;
+}
+.batton_position_8 {
+    left: 24.5%;
+    top: 5px;
+}
+
+@media (min-width: 750px) {
+    .month_details {
         height: 248px;
         margin-top: -302px;
     }
-    .month_column{
+
+    .month_column {
         height: 248px;
         width: 3.97%;
         margin-left: 1.75%;
@@ -157,110 +181,183 @@ a.desc:after {
         padding-right: 10px;
         padding-left: 10px;
     }
-    .batton_position_2{
+
+    .batton_position_2 {
         left: 1%;
         top: 5px;
 
     }
-    .batton_position_1{
+
+    .batton_position_1 {
         left: 0;
         top: 5px;
 
     }
-    .batton_position_3{
+
+    .batton_position_3 {
         left: 1%;
         top: 5px;
 
     }
-    .batton_position_4{
+
+    .batton_position_4 {
         left: 1%;
         top: 5px;
     }
-    .btn-lg{
+    .batton_position_5 {
+        left: -0.8%;
+        top: 5px;
+    }
+
+    .batton_position_6 {
+        left: -0.4%;
+        top: 5px;
+    }
+    .batton_position_7 {
+        left: 25%;
+        top: 5px;
+    }
+    .batton_position_8 {
+        left: 24.5%;
+        top: 5px;
+    }
+
+    .btn-lg {
         padding: 6px 12px;
         font-size: 14px;
     }
 }
-@media (min-width: 995px){
-    .month_details{
+
+@media (min-width: 995px) {
+    .month_details {
         height: 328px;
         margin-top: -398px;
     }
-    .month_column{
+
+    .month_column {
         height: 328px;
         width: 3.97%;
         margin-left: 1.75%;
         margin-right: 1.75%;
     }
-    .btn-lg{
+
+    .btn-lg {
         padding: 6px 12px;
         font-size: 14px;
     }
-    .batton_position_2{
+
+    .batton_position_2 {
         left: 1%;
         top: 5px;
 
     }
 
-    .batton_position_1{
+    .batton_position_1 {
         left: 0;
         top: 5px;
 
     }
-    .batton_position_3{
+
+    .batton_position_3 {
         left: 10%;
         top: 5px;
 
     }
-    .batton_position_4{
+
+    .batton_position_4 {
         left: 23%;
         top: 5px;
     }
+    .batton_position_5 {
+        left: -0.8%;
+        top: 5px;
+    }
+
+    .batton_position_6 {
+        left: -0.4%;
+        top: 5px;
+    }
+    .batton_position_7 {
+        left: 25%;
+        top: 5px;
+    }
+    .batton_position_8 {
+        left: 24.5%;
+        top: 5px;
+    }
 }
-@media (min-width: 1200px){
-    .month_details{
+
+@media (min-width: 1200px) {
+    .month_details {
         height: 398px;
         margin-top: -486px;
 
     }
-    .month_column{
+
+    .month_column {
         height: 398px;
         width: 3.97%;
         margin-left: 1.75%;
         margin-right: 1.75%;
     }
-    .btn-lg{
+
+    .btn-lg {
         padding: 10px 16px;
         font-size: 18px;
         line-height: 1.3333333;
         border-radius: 6px;
     }
-    .batton_position_2{
+
+    .batton_position_2 {
         left: 11%;
         top: 5px;
 
     }
-    .batton_position_1{
+
+    .batton_position_1 {
         left: 10%;
         top: 5px;
 
     }
-    .batton_position_3{
+
+    .batton_position_3 {
         left: 25%;
         top: 5px;
 
-    }.batton_position_4{
-         left: 40%;
-         top: 5px;
-     }
+    }
+
+    .batton_position_4 {
+        left: 40%;
+        top: 5px;
+    }
+
+    .batton_position_5 {
+        left: -0.8%;
+        top: 5px;
+    }
+
+    .batton_position_6 {
+        left: -0.4%;
+        top: 5px;
+    }
+    .batton_position_7 {
+        left: 25%;
+        top: 5px;
+    }
+    .batton_position_8 {
+        left: 24.5%;
+        top: 5px;
+    }
 
 }
-@media (max-width: 750px){
-    .month_details{
+
+@media (max-width: 750px) {
+    .month_details {
         height: 220px;
         margin-top: -268px;
     }
-    .month_column{
+
+    .month_column {
         height: 220px;
         width: 3.97%;
         margin-left: 1.75%;
@@ -268,73 +365,102 @@ a.desc:after {
         padding-right: 10px;
         padding-left: 10px;
     }
-    .batton_position_2{
+
+    .batton_position_2 {
         left: 1%;
         top: 5px;
 
     }
-    .batton_position_1{
+
+    .batton_position_1 {
         left: 1%;
         top: 5px;
 
     }
-    .batton_position_3{
+
+    .batton_position_3 {
         left: 1%;
         top: 5px;
 
     }
-    .batton_position_4{
+
+    .batton_position_4 {
         left: 1%;
         top: 5px;
     }
-    .btn-lg{
+    .batton_position_5 {
+        left: 2%;
+        top: 5px;
+    }
+
+    .batton_position_6 {
+        left: 2%;
+        top: 5px;
+    }
+    .batton_position_7 {
+        left: 25%;
+        top: 5px;
+    }
+    .batton_position_8 {
+        left: 24.5%;
+        top: 5px;
+    }
+
+    .btn-lg {
         padding: 6px 12px;
         font-size: 14px;
     }
 
 }
+
 .month_column {
     z-index: 102;
-   /* background-color: #00b3ee;
-    opacity: 0.5;*/
+    /* background-color: #00b3ee;
+     opacity: 0.5;*/
 
 }
-.month_column_right{
+
+.month_column_right {
 
 }
-.month_column_left{
-margin-left: 7.8%;
+
+.month_column_left {
+    margin-left: 7.8%;
 }
 
-a:hover span.month_column{
+a:hover span.month_column {
     background-color: green;
     opacity: 0.2;
 
 }
+
 .thead_1 {
     font-weight: bold;
     background-color: rgb(100, 149, 237);
 
-
 }
+
 .thead_2 {
     font-weight: bold;
-    background-color: rgb(60,174,113);
+    background-color: rgb(60, 174, 113);
     color: black;
 
 }
+
 .thead_3 {
     font-weight: bold;
-    background-color: rgb(255,215,0);
+    background-color: rgb(255, 215, 0);
     color: black;
 
 }
+
 .thead_4 {
     font-weight: bold;
     background-color: rgb(178, 34, 34);
     color: black;
 
 }
+
 .thead_5 {
     font-weight: bold;
     background-color: rgb(105, 105, 105);
@@ -342,45 +468,60 @@ a:hover span.month_column{
 
 }
 
+.thead_6 {
+    font-weight: bold;
+    background-color: rgb(255, 000, 255);
+    color: black;
+
+}
 
 .navbar-default .navbar-nav > li.ttt > a {
     color: black;
 }
-.navbar-default .navbar-nav > li.ttt > a:focus, .navbar-default .navbar-nav > li.ttt > a:hover{
+
+.navbar-default .navbar-nav > li.ttt > a:focus, .navbar-default .navbar-nav > li.ttt > a:hover {
     color: white;
 
 }
 
-
-
-.th{
+.th {
 
 }
-.btn-color-1{
+
+.btn-color-1 {
     background-color: rgb(100, 149, 237);
 
 }
-.btn-color-2{
-    background-color: rgb(60,174,113);
+
+.btn-color-2 {
+    background-color: rgb(60, 174, 113);
 
 }
-.btn-color-3{
-    background-color: rgb(255,215,0);
+
+.btn-color-3 {
+    background-color: rgb(255, 215, 0);
 
 }
-.btn-color-4{
+
+.btn-color-4 {
     background-color: rgb(178, 34, 34);
 
 }
-.btn-color-5{
+
+.btn-color-5 {
     background-color: rgb(105, 105, 105);
 
 }
-.button-position{
+
+.button-position {
 
     margin-top: 7px;
 
 }
+.btn-graf-position{
+    margin-top: 25px;
+}
+
 .form-group {
     margin-bottom: 0;
 }

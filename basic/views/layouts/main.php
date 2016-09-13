@@ -45,7 +45,7 @@ AppAsset::register($this);
             // ['label' => 'About', 'url' => ['/site/about']],
             //   ['label' => 'Contact', 'url' => ['/site/contact']],
             //   ['label' => 'Test', 'url' => ['/users/index']],
-            ['label' => 'Charges', 'url' => 'charges', 'active' => (Yii::$app->request->url == "/charges" || preg_match("/\/charges\/\d{1}-\d{4}/", Yii::$app->request->url)),
+            ['label' => 'Финансовая статистика', 'url' => '/charges', 'active' => (Yii::$app->request->url == "/charges" || preg_match("/\/charges\/\d{1}-\d{4}/", Yii::$app->request->url)),
                 'items' => [
                     ['label' => 'Общие графики', 'url' => '/charges',],
                     ['label' => 'Детальные графики', 'url' => '/charges/5-2016',],
@@ -58,6 +58,20 @@ AppAsset::register($this);
 //                ['label' => 'Домосеть', 'url' => 'charges#homenetwork'],
 //                ['label' => 'Все', 'url' => 'charges#all']
                 ]
+            ],
+            ['label' => 'Статистика TODO', 'url' => '/todo', 'active' => (Yii::$app->request->url == "/todo" || preg_match("/\/todo\/\d{1}-\d{4}/", Yii::$app->request->url)),
+                'items' => [
+                    ['label' => 'Количесто TODO', 'url' => '/todo/2',
+                        'items' =>[
+                            ['label' => 'Графики за весь период', 'url' => '/todo/2',],
+                            ['label' => 'Детальные графики', 'url' => '/todo/2-2016',],
+                            ['label' => 'График с выбором периода', 'url' => '/todo/select-data',],
+                        ]
+                    ],
+                    ['label' => 'Время обработки TODO', 'url' => '',],
+
+
+                ],
             ],
             Yii::$app->user->isGuest ? (
             ['label' => 'Login', 'url' => ['/site/login']]

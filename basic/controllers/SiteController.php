@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\components\debugger\Debugger;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -94,9 +95,37 @@ class SiteController extends Controller
 
     public function actionNoData()
     {
+
         $date_before = Yii::$app->params['date-before'];
        $date_today = Yii::$app->formatter->asDate('now','yyyy-MM-dd');
 
         return $this->render('no-data', ['date_today' => $date_today, 'date_before' => $date_before]);
+    }
+    public function actionNoDataTodo()
+    {
+
+        $date_before = Yii::$app->params['date-before-todo'];
+        $date_today = Yii::$app->formatter->asDate('now','yyyy-MM-dd');
+
+        return $this->render('no-data', ['date_today' => $date_today, 'date_before' => $date_before]);
+    }
+    public function actionNoDataInRequest()
+    {
+        $url = Yii::$app->request->url;
+        $url_array = explode('/', $url);
+        $param_array = explode("-", $url_array[2]);
+        if(isset($param_array[2])){
+            $request_date = $param_array[1] .'-'. $param_array[2];
+        }else{
+            $request_date = $param_array[1];
+
+        }
+        if($url_array[1] == 'todo'){
+            $todo_type = Yii::$app->params['todo_type'][$param_array[0]]['name'];
+        }else{
+            $todo_type = '';
+        }
+
+        return $this->render('no-data-in-request', ['request_date' => $request_date, 'todo_type' => $todo_type]);
     }
 }

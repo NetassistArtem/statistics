@@ -93,6 +93,21 @@ $config = [
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
                 [
+                    'pattern' => 'todo/no-data',
+                    'route' => 'site/no-data-todo',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'todo/<type:[1-6]>-<year:20[0-9][0-9]>-<month:[01][0-9]>/no-data-in-request',
+                    'route' => 'site/no-data-in-request',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'todo/<type:[1-6]>-<year:20[0-9][0-9]>/no-data-in-request',
+                    'route' => 'site/no-data-in-request',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
                     'pattern' => 'charges/select-data',
                     'route' => 'statistics/select-data',
                     //'defaults' => ['page' => 1, 'tag' => ''],
@@ -136,6 +151,66 @@ $config = [
                     'pattern' => 'charges/multi-years/table',
                     'route' => 'statistics/get-data-table',
                     //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'todo/<type:[1-6]>-<year:20[0-9][0-9]>',
+                    'route' => 'todo/todo-quantity-year',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'todo/<type:[1-6]>-<year:20[0-9][0-9]>/line',
+                    'route' => 'todo/todo-data-line',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'todo/<type:[1-6]>-<year:20[0-9][0-9]>/table',
+                    'route' => 'todo/todo-data-table',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'todo/<type:[1-6]>-<year:20[0-9][0-9]>-<month:[01][0-9]>',
+                    'route' => 'todo/todo-quantity-month',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'todo/<type:[1-6]>-<year:20[0-9][0-9]>-<month:[01][0-9]>/line',
+                    'route' => 'todo/todo-data-line',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'todo/<type:[1-6]>-<year:20[0-9][0-9]>-<month:[01][0-9]>/table',
+                    'route' => 'todo/todo-data-table',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'todo/<type:[1-6]>',
+                    'route' => 'todo/todo-quantity-all',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'todo/<type:[1-6]>/table',
+                    'route' => 'todo/todo-data-table',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'todo/<type:[1-6]>/line',
+                    'route' => 'todo/todo-data-line',
+                    //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'todo/select-data',
+                    'route' => 'todo/select-data',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'todo/select-data/line',
+                    'route' => 'todo/todo-data-line',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'todo/select-data/table',
+                    'route' => 'todo/todo-data-table',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
 
             ],

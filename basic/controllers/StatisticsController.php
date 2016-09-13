@@ -5,6 +5,7 @@ namespace app\controllers;
 
 use yii\base\Exception;
 use yii\BaseYii;
+use yii\debug\DebugAsset;
 use yii\web\Controller;
 use yii\web\UrlManager;
 use app\models\Charges;
@@ -13,17 +14,11 @@ use app\models\MultiYearsForm;
 use Yii;
 use app;
 use yii\web\Request;
+use app\components\debugger\Debugger;
 
 
 class StatisticsController extends Controller
 {
-    private $colors = array(
-        1 => array(100, 149, 237),
-        2 => array(60, 174, 113),
-        3 => array(255, 215, 0),
-        4 => array(178, 34, 34),
-        5 => array(105, 105, 105),
-    );
 
     private function chartCreater1($file_name, $chart_name, $data_y, $data_x, $name_y, $name_x, $date_format, $max_YAxis, $text_angle_X, array $color_pallet, $x_interval = 1)
     {                             // $file_name, $chart_name, $data_y, $data_x, $name_y, $name_x, $date_format, $max_YAxis, $text_angle_X, array $color_pallet, $x_interval = 1
@@ -353,60 +348,22 @@ class StatisticsController extends Controller
     {
         switch ($number) {
             case 1 :
-                return array(
-                    'net_id' => 101,
-                    'user_class' => 0,
-                    'net_id_operator' => '<',
-                    'name' => 'Домашние абоненты',
-                    'name_file' => 'charge_year_home'
-
-                );
+                return Yii::$app->params['users_type'][1];
                 break;
             case 2 :
-                return array(
-                    'net_id' => 199,
-                    'user_class' => 1,
-                    'net_id_operator' => '<=',
-                    'name' => 'Бизнес абоненты  домосети',
-                    'name_file' => 'charge_year_business_homenetwork'
-                );
+                return Yii::$app->params['users_type'][2];
                 break;
             case 3 :
-                return array(
-                    'net_id' => 200,
-                    'user_class' => 1,
-                    'net_id_operator' => '=',
-                    'name' => 'Бизнес абоненты магистральные',
-                    'name_file' => 'charge_year_business_trunk'
-                );
+                return Yii::$app->params['users_type'][3];
                 break;
             case 4 :
-                return array(
-                    'net_id' => 199,
-                    'user_class' => '',
-                    'net_id_operator' => '<=',
-                    'name' => 'Домосеть',
-                    'name_file' => 'charge_year_homenetwork'
-                );
+                return Yii::$app->params['users_type'][4];
                 break;
             case 5 :
-                return array(
-                    'net_id' => 200,
-                    'user_class' => '',
-                    'net_id_operator' => '<=',
-                    'name' => 'Все абоненты',
-                    'name_file' => 'charge_year_all'
-
-                );
+                return Yii::$app->params['users_type'][5];
                 break;
             default:
-                return array(
-                    'net_id' => 200,
-                    'user_class' => '',
-                    'net_id_operator' => '<=',
-                    'name' => 'Все абоненты',
-                    'name_file' => 'charge_year_all'
-                );
+                return Yii::$app->params['users_type'][1];
                 break;
 
         }
@@ -566,7 +523,7 @@ class StatisticsController extends Controller
 
 
         $data = $chargesModel->ChargesByNetwork($scale, $start_period, $end_period, $net_id_operator, $net_id, $user_class, $user_class_unuse);
-
+//Debugger::PrintR($data);
         $e_p = $end_period < 100 ? $end_period : round($end_period / 100);
         $s_p = $start_period < 100 ? $start_period : round($end_period / 100);
 
@@ -577,11 +534,23 @@ class StatisticsController extends Controller
             foreach ($data as $k_1 => $v_1) {
                 $data_2[$v_1['ts']] = $v_1;
             }
+
             $data_3 = array();
 
-            $i = (int)$start_period;
 
-            while ($i < ((int)$start_period + 12)) {
+
+            if(strlen($start_period)<= 2){
+                $i = $start_period . '01';
+                $i_end = $start_period . '01';
+                $i = (int)$i;
+                $i_end = (int)$i_end;
+            }else{
+                $i = (int)$start_period;
+                $i_end = (int)$start_period;
+            }
+
+
+            while ($i < ((int)$i_end + 12)) {
 
                 if (isset($data_2[$i])) {
                     $data_3[$i] = $data_2[$i];
@@ -589,9 +558,13 @@ class StatisticsController extends Controller
                     $data_3[$i]['ts'] = $i;
                     $data_3[$i]['pay'] = 0;
                 }
+
                 $i++;
             }
+
+
             $data = array();
+
             foreach ($data_3 as $v) {
                 $data[] = $v;
             }
@@ -600,6 +573,8 @@ class StatisticsController extends Controller
 
         $data_time = array();
         $data_charge = array();
+
+
         foreach ($data as $key => $val) {
             $d = $this->dateParsing($val['ts']);
 
@@ -608,12 +583,16 @@ class StatisticsController extends Controller
             $data_charge[] = round($val['pay'] / 1000);
             $data_time[] = $d; //$val['ts'];
             // print_r($data_time);
+
         }
+
         $total_data = array(
             'data_charge' => $data_charge,
             'data_time' => $data_time,
             'data' => $data
         );
+
+
 
 
         return $total_data;
@@ -830,7 +809,7 @@ class StatisticsController extends Controller
 
             $max_y_scale = max($data_year['data_charge']) < 60 ? 60 : (max($data_year['data_charge']) + 5);
 
-            $this->chartCreater2($users_type['name_file'], $graph_name, $data_year['data_charge'], $data_year['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y-m-d', $max_y_scale, 90, $this->colors[$param_array[0]], 7);
+            $this->chartCreater2($users_type['name_file'], $graph_name, $data_year['data_charge'], $data_year['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y-m-d', $max_y_scale, 90, Yii::$app->params['colors_statistic'][$param_array[0]], 7);
 
         } else {
             $data_year = $this->totalCharges($chargesModel, "Ym", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse);
@@ -868,7 +847,7 @@ class StatisticsController extends Controller
             //print_r($data_year);
 
 
-            $this->chartCreater3($users_type['name_file'], $graph_name, $data_year['data_charge'], $data_year['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y-m', $max_y_scale, 0, $this->colors[$param_array[0]]);
+            $this->chartCreater3($users_type['name_file'], $graph_name, $data_year['data_charge'], $data_year['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y-m', $max_y_scale, 0, Yii::$app->params['colors_statistic'][$param_array[0]]);
         }
         $line = 0;
         if (isset($url_array[3])) {
@@ -931,14 +910,14 @@ class StatisticsController extends Controller
             $max_y_scale = max($data_month['data_charge']) < 50 ? 50 : (max($data_month['data_charge']) + 5);
             $text_angle = count($data_month['data']) < 15 ? 0 : 90;
 
-            $this->chartCreater1($users_type['name_file'], $graph_name, $data_month['data_charge'], $data_month['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y-m-d', $max_y_scale, $text_angle, $this->colors[$param_array[0]], 1);
+            $this->chartCreater1($users_type['name_file'], $graph_name, $data_month['data_charge'], $data_month['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y-m-d', $max_y_scale, $text_angle, Yii::$app->params['colors_statistic'][$param_array[0]], 1);
 
         } else {
             $data_month = $this->totalCharges($chargesModel, "Ymd", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse);
             $max_y_scale = max($data_month['data_charge']) < 50 ? 50 : (max($data_month['data_charge']) + 5);
 
             $text_angle = count($data_month['data']) < 15 ? 0 : 90;
-            $this->chartCreater3($users_type['name_file'], $graph_name, $data_month['data_charge'], $data_month['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y-m-d', $max_y_scale, $text_angle, $this->colors[$param_array[0]]);
+            $this->chartCreater3($users_type['name_file'], $graph_name, $data_month['data_charge'], $data_month['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y-m-d', $max_y_scale, $text_angle, Yii::$app->params['colors_statistic'][$param_array[0]]);
         }
         $line = 0;
         if (isset($url_array[3])) {
@@ -994,7 +973,7 @@ class StatisticsController extends Controller
         } elseif ($n == 1 && $url_a[4] == 'table') {
             return $this->actionChargesMultiYear();
         } elseif ($n == 2 && $url_a[2] == 'multi-years') {
-            echo 'test';
+
             return $this->actionSelectDataMultiYears(Yii::$app->request->get('years'), Yii::$app->request->get('user_type'));
         } else {
             return null;
@@ -1025,6 +1004,7 @@ class StatisticsController extends Controller
 
     public function actionSelectData($year_start = null, $year_end = null, $user_type = null)
     {
+
 
 
         $chargesModel = new Charges();
@@ -1063,8 +1043,8 @@ class StatisticsController extends Controller
         if (isset($year_start) && isset($year_end) && isset($user_type)) {
 
             $users_type = $user_type;
-            $start_period = $year_start;
-            $end_period = $year_end;
+            $start_period = $year_start.'01';
+            $end_period = $year_end.'01';
         }
 
 
@@ -1075,12 +1055,12 @@ class StatisticsController extends Controller
         $data = $this->totalCharges($chargesModel, "Ym", $start_period, $end_period, $users_type_array['net_id_operator'], $users_type_array['net_id'], $users_type_array['user_class'], $user_class_unuse);
         $chart_name_year = 'charges_by_network_all';
 
-        $graph_name = $users_type_array['name'] . '. Период с  ' . ($start_period + 2000) . '-01 по, ' . ($end_period + 1999) . '-12.';
+        $graph_name = $users_type_array['name'] . '. Период с  ' . ((int)$start_period + 2000) . '-01 по, ' . ((int)$end_period + 1999) . '-12.';
 
         $max_y_scale = max($data['data_charge']) < 600 ? 600 : (max($data['data_charge']) + 50);
 
         $text_angle = count($data['data']) < 15 ? 0 : 90;
-        $this->chartCreater3($users_type_array['name_file'], $graph_name, $data['data_charge'], $data['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y-m', $max_y_scale, $text_angle, $this->colors[$users_type]);
+        $this->chartCreater3($users_type_array['name_file'], $graph_name, $data['data_charge'], $data['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y-m', $max_y_scale, $text_angle, Yii::$app->params['colors_statistic'][$users_type]);
 
         if (isset($url_array[3])) {
             $line = null;
@@ -1103,6 +1083,8 @@ class StatisticsController extends Controller
         for ($i = 1; $i <= 5; $i++) {
             $users_type_a[$i] = $this->usersType($i)['name'];
         }
+
+
 
         return $this->render($views_name, [
             'label' => $label,
@@ -1199,6 +1181,7 @@ class StatisticsController extends Controller
             $views_name = 'charges_multi_year';
         }
         //die('ups');
+
 
         return $this->render($views_name, [
             'label' => $label,
@@ -1334,7 +1317,6 @@ class StatisticsController extends Controller
         foreach ($years_array_full as $v) {
             $year_year_array_full[$v] = $v;
         }
-
 
         return $this->render($views_name, [
             'label' => $label,
