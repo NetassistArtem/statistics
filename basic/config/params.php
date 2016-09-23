@@ -13,7 +13,7 @@ return [
         3 => array(255, 215, 0),
         4 => array(178, 34, 34),
         5 => array(105, 105, 105),
-        6 => array(255,000,255)
+        6 => array(255, 000, 255)
     ),
     'colors_statistic' => array(
         1 => array(100, 149, 237),
@@ -22,7 +22,7 @@ return [
         4 => array(178, 34, 34),
         5 => array(105, 105, 105),
     ),
-    'users_type' =>array(
+    'users_type' => array(
         1 => array(
             'net_id' => 101,
             'user_class' => 0,
@@ -101,7 +101,7 @@ return [
         1 => array(
             'name' => 'Поступило',
             'name_en' => 'data_income',
-            'color' => array(255,128,114),
+            'color' => array(255, 128, 114),
             'data' => array(
                 0 => 'New',
             )
@@ -109,7 +109,7 @@ return [
         2 => array(
             'name' => 'В работе',
             'name_en' => 'data_inwork',
-            'color' => array(60,179,113),
+            'color' => array(60, 179, 113),
             'data' => array(
                 5 => 'Подготовить',
                 6 => 'Утверждено',
@@ -124,15 +124,16 @@ return [
                 50 => 'Скоро',
                 60 => 'Когда-нибудь',
                 61 => 'Интересовались',
-                90 => 'Готовим отчет',
+
 
             )
         ),
         3 => array(
             'name' => 'Выполнено',
             'name_en' => 'data_complete',
-            'color' => array(255, 215,0),
+            'color' => array(255, 215, 0),
             'data' => array(
+                90 => 'Готовим отчет',
                 92 => 'отчет готов!',
                 100 => 'Complete',
             )
@@ -140,7 +141,7 @@ return [
         4 => array(
             'name' => 'Отменены',
             'name_en' => 'data_delete',
-            'color' => array(100,149,237),
+            'color' => array(100, 149, 237),
             'data' => array(
                 110 => 'Архив',
                 200 => 'Lost',
@@ -150,7 +151,7 @@ return [
         5 => array(
             'name' => 'Дубликаты',
             'name_en' => 'data_repeat',
-            'color' => array(189,183,107),
+            'color' => array(189, 183, 107),
             'data' => array(
                 250 => 'Дубликат',
                 900 => 'Тема закрыта',
@@ -217,4 +218,167 @@ return [
         25000 => '25000 : test subnet',
 
     ),
+    'todo_status_for_time' => array(
+        1 => array(
+            'group_status' => 'data_inwork',
+            'name' => '5,6:Подготовить',
+            'name_en' => '',
+            'color' => array(60, 179, 113),
+            'data_id' => array(5, 6),
+            'parent' => 7,
+
+        ),
+        2 => array(
+            'group_status' => 'data_inwork',
+            'name' => '10:Проверить',
+            'name_en' => '',
+            'color' => array(60, 179, 113),
+            'data_id' => array(10),
+            'parent' => 7,
+
+        ),
+        3 => array(
+            'group_status' => 'data_inwork',
+            'name' => '15:Перезвонить (support)',
+            'name_en' => '',
+            'color' => array(60, 179, 113),
+            'data_id' => array(15),
+            'parent' => 7,
+
+        ),
+        4 => array(
+            'group_status' => 'data_inwork',
+            'name' => '16:Перезвонить (исполн.)',
+            'name_en' => '',
+            'color' => array(60, 179, 113),
+            'data_id' => array(16),
+            'parent' => 7,
+
+        ),
+        5 => array(
+            'group_status' => 'data_inwork',
+            'name' => '20:В очереди',
+            'name_en' => '',
+            'color' => array(60, 179, 113),
+            'data_id' => array(20),
+            'parent' => 7,
+
+        ),
+        6 => array(
+            'group_status' => 'data_inwork',
+            'name' => '30-61:Уже делаем',
+            'name_en' => '',
+            'color' => array(60, 179, 113),
+            'data_id' => array(30, 40, 42, 50, 60, 61),
+            'parent' => 7,
+
+        ),
+        7 => array(
+            'group_status' => 'data_inwork',
+            'name' => 'Все(в работе)',
+            'name_en' => '',
+            'color' => array(60, 179, 113),
+            'data_id' => array(5, 6, 10, 15, 16, 20, 30, 40, 42, 50, 60, 61),
+            'parent' => 7,
+        ),
+
+        8 => array(
+            'group_status' => 'data_complete',
+            'name' => '90:Готовим отчет',
+            'name_en' => '',
+            'color' => array(255, 215, 0),
+            'data_id' => array(90),
+            'parent' => 11,
+
+        ),
+        9 => array(
+            'group_status' => 'data_complete',
+            'name' => '92:Отчет готов!',
+            'name_en' => '',
+            'color' => array(255, 215, 0),
+            'data_id' => array(92),
+            'parent' => 11,
+
+        ),
+        10 => array(
+            'group_status' => 'data_complete',
+            'name' => '100:Complete',
+            'name_en' => '',
+            'color' => array(255, 215, 0),
+            'data_id' => array(100),
+            'parent' => 11,
+
+        ),
+        11 => array('group_status' => 'data_complete',
+            'name' => 'Все(выполнено)',
+            'name_en' => '',
+            'color' => array(255, 215, 0),
+            'data_id' => array(90, 92, 100),
+            'parent' => 11,
+            ),
+
+
+        12 => array(
+            'group_status' => 'data_delete',
+            'name' => '110:Архив',
+            'name_en' => '',
+            'color' => array(100, 149, 237),
+            'data_id' => array(110),
+            'parent' => 14,
+
+        ),
+        13 => array(
+            'group_status' => 'data_delete',
+            'name' => '200,210:Не актуально',
+            'name_en' => '',
+            'color' => array(100, 149, 237),
+            'data_id' => array(200, 210),
+            'parent' => 14,
+
+        ),
+        14 => array(
+            'group_status' => 'data_delete',
+            'name' => 'Все(отменены)',
+            'name_en' => '',
+            'color' => array(100, 149, 237),
+            'data_id' => array(110, 200, 210),
+            'parent' => 14,
+        ),
+        15 => array(
+            'group_status' => 'data_repeat',
+            'name' => '250:Дубликат',
+            'name_en' => '',
+            'color' => array(189, 183, 107),
+            'data_id' => array(250),
+            'parent' => 17,
+
+        ),
+        16 => array(
+            'group_status' => 'data_repeat',
+            'name' => '900,901:Тема закрыта',
+            'name_en' => '',
+            'color' => array(189, 183, 107),
+            'data_id' => array(900, 901),
+            'parent' => 17,
+
+        ),
+        17 => array(
+            'group_status' => 'data_repeat',
+            'name' => 'Все(дубликаты)',
+            'name_en' => '',
+            'color' => array(189, 183, 107),
+            'data_id' => array(250, 900, 901),
+            'parent' => 17,
+        ),
+
+
+    ),
+
+    'todo_time_color' => array(
+        'hours' => array(000,153,102),
+        'todo' => array(255,153,000),
+    ),
+
+    'todo_time_limit' => 150, //максимальное время обработки ТОДО. ТОДО, время обработки которых выше этого предела отсекаются фильтром
 ];
+

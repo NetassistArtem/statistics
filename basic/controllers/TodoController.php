@@ -174,7 +174,7 @@ class TodoController extends Controller
         }
 
 
-        $Test->drawStackedBarGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 50, FALSE);
+        $Test->drawStackedBarGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 60, FALSE);
 
         $Test->setFontProperties(__DIR__ . '/../vendor/pChart/Fonts/tahoma.ttf', 10);
 
@@ -188,7 +188,7 @@ class TodoController extends Controller
             }
         }
         $DataSet->AddSerie("series_data");
-        $Test->drawOverlayBarGraph($DataSet->GetData(), $DataSet->GetDataDescription());
+        $Test->drawOverlayBarGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 0);
 
         // Write values
         $Test->setFontProperties(__DIR__ . '/../vendor/pChart/Fonts/tahoma.ttf', 12);
@@ -272,6 +272,7 @@ class TodoController extends Controller
                 $DataSet->RemoveSerie("series_{$k}");
             }
         }
+
         $DataSet->AddSerie("series_data");
         $Test->drawOverlayBarGraph($DataSet->GetData(), $DataSet->GetDataDescription());
 
@@ -402,7 +403,7 @@ class TodoController extends Controller
             header('Location: /todo/no-data');
             exit;
         }
-
+        return null;
 
     }
 
@@ -716,7 +717,6 @@ class TodoController extends Controller
             );
 */
 
-
             $this->chartCreater3($todo_type['name_file'], $graph_name, $data_array_y, $data_year['data_time'], 'Количество заявок', 'Дата', 'Y-m', $max_y_scale, 0, Yii::$app->params['colors_todo'][$param_array[0]]);
         }
         $line = 0;
@@ -962,7 +962,7 @@ class TodoController extends Controller
         $todo_location_name = $todo_location_a[$todo_location];
         //Debugger::Eho(($start_year + 2000));
 
-        $graph_name = $todo_type_array['name'] . '. Период с  ' . ((int)$start_year + 2000) . '-01 по, ' . ((int)$end_year + 1999) . '-12. Статус TODO - "'.$todo_status_name.'". Сеть - "'.$todo_location_name.'".';
+        $graph_name = $todo_type_array['name'] . '. Период с  ' . ((int)$start_year + 2000) . '-01 по, ' . ((int)$end_year + 1999) . '-12. Статус TODO - "' . $todo_status_name . '". Сеть - "' . $todo_location_name . '".';
 
         $max_y_scale = max($data['data_todo']) < 200 ? 200 : (max($data['data_todo']) + 25);
 
@@ -1005,7 +1005,6 @@ class TodoController extends Controller
         foreach (Yii::$app->params['todo_status'] as $k => $v) {
             $todo_status_a[] = $v['name'];
         }
-
 
 
         return $this->render($views_name, [

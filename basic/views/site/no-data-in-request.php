@@ -9,10 +9,15 @@ $this->title = 'Запрашиваемые данные отсутствуют';
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-       Запрос на количество TODO  - <?= $todo_type ?>.
+        <?php if(isset($todo_status)): ?>
+            Запрос на среднее время обработки TODO  - <b><?= $todo_type ?></b>, в статусе <b><?= $todo_status ?></b>
+            <?php else: ?>
+            Запрос на количество TODO  - <b><?= $todo_type ?></b>.
+        <?php endif; ?>
+
     </p>
     <p>
-        Дата <?= $request_date ?>.
+        Дата   <b><?= $request_date ?></b>.
     </p>
     <p>
         Данные отсутствуют!

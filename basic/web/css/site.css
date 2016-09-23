@@ -529,6 +529,15 @@ a:hover span.month_column {
 div.checkbox_left label {
     margin-left: 10px;
 }
+.todo-status-border {
+    border: 2px solid red;
+    margin: 2px;
+   /* width: 93%;*/
+}
+
+.dropdown:hover > .dropdown-menu {
+    display: block;
+}
 
 
 

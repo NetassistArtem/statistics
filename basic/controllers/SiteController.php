@@ -114,18 +114,23 @@ class SiteController extends Controller
         $url = Yii::$app->request->url;
         $url_array = explode('/', $url);
         $param_array = explode("-", $url_array[2]);
+        $todo_status = null;
         if(isset($param_array[2])){
             $request_date = $param_array[1] .'-'. $param_array[2];
         }else{
             $request_date = $param_array[1];
 
         }
-        if($url_array[1] == 'todo'){
+        if($url_array[1] == 'todo') {
             $todo_type = Yii::$app->params['todo_type'][$param_array[0]]['name'];
+        }elseif($url_array[1] == 'todo-time'){
+            $todo_type = Yii::$app->params['todo_type'][$param_array[0]]['name'];
+            $todo_status = Yii::$app->params['todo_status_for_time'][$param_array[2]]['name'];
+            $request_date = $param_array[1];
         }else{
             $todo_type = '';
         }
 
-        return $this->render('no-data-in-request', ['request_date' => $request_date, 'todo_type' => $todo_type]);
+        return $this->render('no-data-in-request', ['request_date' => $request_date, 'todo_type' => $todo_type, 'todo_status' => $todo_status]);
     }
 }

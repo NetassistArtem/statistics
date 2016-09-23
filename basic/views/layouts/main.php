@@ -40,12 +40,19 @@ AppAsset::register($this);
 
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
+
         'items' => [
             //  ['label' => 'Home', 'url' => ['/site/index']],
             // ['label' => 'About', 'url' => ['/site/about']],
             //   ['label' => 'Contact', 'url' => ['/site/contact']],
             //   ['label' => 'Test', 'url' => ['/users/index']],
-            ['label' => 'Финансовая статистика', 'url' => '/charges', 'active' => (Yii::$app->request->url == "/charges" || preg_match("/\/charges\/\d{1}-\d{4}/", Yii::$app->request->url)),
+            ['label' => 'Финансовая статистика', 'url' => '/charges',
+                'active' => (
+                    Yii::$app->request->url == "/charges" ||
+                    preg_match("/\/charges\/\d{1}-\d{4}/", Yii::$app->request->url) ||
+                    Yii::$app->request->url == "/charges/select-data" ||
+                    Yii::$app->request->url == "/charges/multi-years"
+                ),
                 'items' => [
                     ['label' => 'Общие графики', 'url' => '/charges',],
                     ['label' => 'Детальные графики', 'url' => '/charges/5-2016',],
@@ -59,16 +66,24 @@ AppAsset::register($this);
 //                ['label' => 'Все', 'url' => 'charges#all']
                 ]
             ],
-            ['label' => 'Статистика TODO', 'url' => '/todo', 'active' => (Yii::$app->request->url == "/todo" || preg_match("/\/todo\/\d{1}-\d{4}/", Yii::$app->request->url)),
+            ['label' => 'Статистика TODO', 'url' => '/todo','encodeLabels' => 'true',
+                'active' => (
+                    Yii::$app->request->url == "/todo" ||
+                    preg_match("/\/todo\/\d{1}-\d{4}/", Yii::$app->request->url) ||
+                    preg_match("/\/todo\/\d{1}/", Yii::$app->request->url) ||
+                    Yii::$app->request->url == "/todo/select-data" ||
+                    preg_match("/\/todo-time\/\d{1}-\d{4}-\d{1,2}/", Yii::$app->request->url)
+                ),
                 'items' => [
-                    ['label' => 'Количесто TODO', 'url' => '/todo/2',
-                        'items' =>[
-                            ['label' => 'Графики за весь период', 'url' => '/todo/2',],
-                            ['label' => 'Детальные графики', 'url' => '/todo/2-2016',],
-                            ['label' => 'График с выбором периода', 'url' => '/todo/select-data',],
-                        ]
-                    ],
-                    ['label' => 'Время обработки TODO', 'url' => '',],
+                    '<li class="dropdown-header">Количесто TODO</li>',
+                    ['label' => 'Графики за весь период', 'url' => '/todo/2',],
+                    ['label' => 'Детальные графики', 'url' => '/todo/2-2016',],
+                    ['label' => 'График с выбором периода', 'url' => '/todo/select-data',],
+
+                    '<li class="divider"></li>',
+                    '<li class="dropdown-header">Время обработки TODO</li>',
+                    ['label' => 'Детальные графики', 'url' => '/todo-time/2-2016-11',],
+                    ['label' => 'График с выбором периода', 'url' => '',],
 
 
                 ],
