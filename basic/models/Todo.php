@@ -113,7 +113,7 @@ class Todo extends Model
             );
 
             $data = Yii::$app->db->createCommand("select todo_id,init_time, subj,ref_net_id,todo_state from todo_list
- where init_time between :period_from and :period_to and back_ver=0 and todo_type= :todo_type $todo_loc  ORDER BY init_time")
+ where init_time between :period_from and :period_to and ver=0 and todo_type= :todo_type $todo_loc  ORDER BY init_time")
                 ->bindValues($params)
                 ->queryAll();
         } elseif ($sql_type && $sql_type == 2) {
@@ -140,7 +140,7 @@ class Todo extends Model
             );
 
             $data_1 = Yii::$app->db->createCommand("select todo_id,init_time, subj,ref_net_id,todo_state from todo_list
- where init_time between :period_from and :period_to and back_ver=0 and todo_type= :todo_type $todo_loc ORDER BY init_time")
+ where init_time between :period_from and :period_to and ver=0 and todo_type= :todo_type $todo_loc ORDER BY init_time")
                 ->bindValues($params)
                 ->queryAll();
                //->rawSql;
