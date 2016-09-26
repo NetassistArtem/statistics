@@ -41,7 +41,7 @@ $url_all = '/todo/' . $todo_type;
             ['label' => 'Аварии', 'url' => "/todo-time/4-$year-$todo_status", 'active' => ("/todo-time/4-$year-$todo_status" == Yii::$app->request->url || "/todo-time/4-$year-$todo_status/line" == Yii::$app->request->url)],
             ['label' => 'Админ-аварии', 'url' => "/todo-time/5-$year-$todo_status", 'active' => ("/todo-time/5-$year-$todo_status" == Yii::$app->request->url || "/todo-time/5-$year-$todo_status/line" == Yii::$app->request->url)],
             // "<li class='batton_position_5'><p ><a class='btn btn-default btn-lg' href='$url_all'> Общий график </a></p></li>",
-            // "<li class='batton_position_6'><p ><a class='btn btn-default btn-lg' href=".$url_table.">Табл. данных</a></p></li>"
+             "<li class='batton_position_6'><p ><a class='btn btn-default btn-lg' href=".$url_table.">Табл. данных</a></p></li>"
         ],
     ]); ?>
 

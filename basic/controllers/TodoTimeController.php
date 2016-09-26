@@ -16,24 +16,25 @@ class TodoTimeController extends Controller
 {
 
 
-    private function chartCreater1($file_name, $chart_name, $date_format, $data_y_right, $data_y_left, $data_x, $name_y_right, $name_y_left, $name_x, $max_YAxis_right, $max_YAxis_left, $text_angle_X, array $color_pallet, $x_interval = 1){
+    private function chartCreater1($file_name, $chart_name, $date_format, $data_y_right, $data_y_left, $data_x, $name_y_right, $name_y_left, $name_x, $max_YAxis_right, $max_YAxis_left, $text_angle_X, array $color_pallet, $x_interval = 1)
+    {
 
         include_once(__DIR__ . '/../vendor/pChart/pChart/pData.class');
         include_once(__DIR__ . '/../vendor/pChart/pChart/pChart.class');
 
         // Dataset definition
         $DataSet = new \pData;
-        $DataSet->AddPoint($data_y_right,"Serie1");
-        $DataSet->AddPoint(array(),"Serie1e");
-        $DataSet->AddPoint($data_y_left,"Serie2");
-        $DataSet->AddPoint(array(),"Serie2e");
-        $DataSet->AddPoint($data_x,"Serie3");
+        $DataSet->AddPoint($data_y_right, "Serie1");
+        $DataSet->AddPoint(array(), "Serie1e");
+        $DataSet->AddPoint($data_y_left, "Serie2");
+        $DataSet->AddPoint(array(), "Serie2e");
+        $DataSet->AddPoint($data_x, "Serie3");
         $DataSet->AddSerie("Serie1");
         $DataSet->AddSerie("Serie1e");
 
         $DataSet->SetAbsciseLabelSerie("Serie3");
-        $DataSet->SetSerieName("Среднее время обработки ТОДО, час","Serie1");
-        $DataSet->SetSerieName("Количество заявок","Serie2");
+        $DataSet->SetSerieName("Среднее время обработки ТОДО, час", "Serie1");
+        $DataSet->SetSerieName("Количество заявок", "Serie2");
 
         $DataSet->SetXAxisFormat("date");
         $DataSet->SetXAxisName($name_x);
@@ -46,7 +47,7 @@ class TodoTimeController extends Controller
         $Test->setFixedScale(0, $max_YAxis_right, 10);
         $Test->setDateFormat($date_format);
 
-       // $Test->drawGraphAreaGradient(90,90,90,90,TARGET_BACKGROUND);
+        // $Test->drawGraphAreaGradient(90,90,90,90,TARGET_BACKGROUND);
 
         // Prepare the graph area
         $Test->setFontProperties(__DIR__ . '/../vendor/pChart/Fonts/tahoma.ttf', 10);
@@ -54,7 +55,7 @@ class TodoTimeController extends Controller
 
         // Initialise graph area
         $Test->setFontProperties(__DIR__ . '/../vendor/pChart/Fonts/tahoma.ttf', 10);
-      //  $Test->setGraphArea(70, 30, 1120, 450);
+        //  $Test->setGraphArea(70, 30, 1120, 450);
         $Test->drawFilledRoundedRectangle(7, 7, 1163, 538, 5, 240, 240, 240);
         $Test->drawRoundedRectangle(5, 5, 1165, 540, 5, 230, 230, 230);
         $Test->drawGraphArea(255, 255, 255, TRUE);
@@ -109,7 +110,6 @@ class TodoTimeController extends Controller
     }
 
 
-
     private function dateParsing($number)
     {
         $n = strlen($number) % 2 ? '0' . $number : $number;
@@ -138,33 +138,33 @@ class TodoTimeController extends Controller
 
         }
         //   $menu_years_item[] = ['label' => "Таблица данных", 'url' => Yii::$app->request->url.'/table','options' => ['class' => 'navbar_right_menu']];
-/*
-        if (!$line && !is_array($year)) {
-            $y = '/todo-time/' . $todo_type . '-' . $year . '-' . $todo_status . '/line';
-            $name = 'Линейный график';
-        } elseif (!is_array($year)) {
-            $y = '/todo-time/' . $todo_type . '-' . $year . '-' . $todo_status;
-            $name = 'Столбцовый график';
-            /**
-             * раскоментить если надо добавить кнопку линейного графика на странице мультивыбор по годам
-             *
-             * } elseif (!$line && is_array($year)) {
-             * $year_string = '';
-             * foreach ($year as $v) {
-             * $year_string .= $v . '-';
-             * }
-             * $year_string = trim($year_string, '-');
-             * $y = '/charges/' . $users_type . '/' . $year_string;
-             * $name = 'Линейный график';
-             * } elseif ($line && is_array($year)) {
-             * $year_string = '';
-             * foreach ($year as $v) {
-             * $year_string .= $v . '-';
-             * }
-             * $year_string = trim($year_string, '-');
-             * $y = '/charges/' . $users_type . '/' . $year_string . '/line';
-             * $name = 'Столбцовый график';
-             **/
+        /*
+                if (!$line && !is_array($year)) {
+                    $y = '/todo-time/' . $todo_type . '-' . $year . '-' . $todo_status . '/line';
+                    $name = 'Линейный график';
+                } elseif (!is_array($year)) {
+                    $y = '/todo-time/' . $todo_type . '-' . $year . '-' . $todo_status;
+                    $name = 'Столбцовый график';
+                    /**
+                     * раскоментить если надо добавить кнопку линейного графика на странице мультивыбор по годам
+                     *
+                     * } elseif (!$line && is_array($year)) {
+                     * $year_string = '';
+                     * foreach ($year as $v) {
+                     * $year_string .= $v . '-';
+                     * }
+                     * $year_string = trim($year_string, '-');
+                     * $y = '/charges/' . $users_type . '/' . $year_string;
+                     * $name = 'Линейный график';
+                     * } elseif ($line && is_array($year)) {
+                     * $year_string = '';
+                     * foreach ($year as $v) {
+                     * $year_string .= $v . '-';
+                     * }
+                     * $year_string = trim($year_string, '-');
+                     * $y = '/charges/' . $users_type . '/' . $year_string . '/line';
+                     * $name = 'Столбцовый график';
+                     **/
         /*
         } else {
             $y = '#';
@@ -180,19 +180,20 @@ class TodoTimeController extends Controller
         return $menu_years_item;
     }
 
-    private function getMenuStatusTodo($todo_type, $year){
+    private function getMenuStatusTodo($todo_type, $year)
+    {
         $menu_status_array = array();
-        foreach(Yii::$app->params['todo_status_for_time'] as $k=>$v){
+        foreach (Yii::$app->params['todo_status_for_time'] as $k => $v) {
             $name = $v['name'];
             $parent = $v['parent'];
-            if($k == $v['parent']){
+            if ($k == $v['parent']) {
 
                 $r_color = $v['color'][0];
                 $g_color = $v['color'][1];
                 $b_color = $v['color'][2];
 
                 $menu_status_array[$parent][$k] = ['label' => "$name", 'url' => "/todo-time/$todo_type-$year-$k", "options" => ["id" => "$k", "style" => "background-color: rgb( $r_color,$g_color,$b_color)"], 'active' => ("/todo-time/$todo_type-$year-$k" == Yii::$app->request->url || "/todo-time/$todo_type-$year-$k/line" == Yii::$app->request->url)];
-            }else{
+            } else {
                 $menu_status_array[$parent][$k] = ['label' => "$name", 'url' => "/todo-time/$todo_type-$year-$k", "options" => ["id" => "$k"], 'active' => ("/todo-time/$todo_type-$year-$k" == Yii::$app->request->url || "/todo-time/$todo_type-$year-$k/line" == Yii::$app->request->url)];
             }
 
@@ -261,7 +262,7 @@ class TodoTimeController extends Controller
         $label = $todoTimeModel->attributeLabels();
         // $label_disconnection = $todoModel->attributeLabelsDisconnection();
 
-        $graph_name = 'Среднее время обработки TODO. '.$todo_type['name'] . ', ' . $todo_status['name'] . ', ' . $param_array[1] . ' год';
+        $graph_name = 'Среднее время обработки TODO. ' . $todo_type['name'] . ', ' . $todo_status['name'] . ', ' . $param_array[1] . ' год';
         $chart_name_year = 'charges_by_network_all';
 
 
@@ -280,7 +281,7 @@ class TodoTimeController extends Controller
         } else {
 
             $data_year = $this->todoTimeData($todoTimeModel, "Ym", $start_period, $end_period, $todo_type, $todo_status['data_id']);
-
+         //   Debugger::PrintR($data_year);
             if (empty($data_year['data'])) {
                 header("Location: /todo-time/$url_array[2]/no-data-in-request");
                 exit;
@@ -336,11 +337,9 @@ class TodoTimeController extends Controller
         }
         $line = 0;
         if (isset($url_array[3])) {
-            if ($url_array[3] == 'table' && $param_array[0] != 6) {
+            if ($url_array[3] == 'table') {
 
-                $views_name = 'todo_data_table';
-            } elseif ($url_array[3] == 'table' && $param_array[0] == 6) {
-                $views_name = 'todo_data_disconnections_table';
+                $views_name = 'todo_time_table';
             } elseif ($url_array[3] == 'line') {
                 $views_name = 'todo_year';
                 $line = 1;
@@ -354,7 +353,7 @@ class TodoTimeController extends Controller
         return $this->render($views_name, [
             'label' => $label,
             'chart_name_year' => $chart_name_year,
-            'data' => $data_year['data'],
+            'data' => $data_year['data_dif'],
             'year' => $param_array[1],
             'todo_type' => $param_array[0],
             'todo_status' => $param_array[2],
@@ -362,9 +361,9 @@ class TodoTimeController extends Controller
             'todo_status_array' => $todo_status_array,
             'name' => $todo_type['name'],
             'name_file' => $todo_type['name_file'],
-            'menu_items_years' => $this->getMenuItemsYears($param_array[0],$param_array[2], $param_array[1], $line),
+            'menu_items_years' => $this->getMenuItemsYears($param_array[0], $param_array[2], $param_array[1], $line),
             'line' => $line,
-            'menu_status_todo' => $this->getMenuStatusTodo($param_array[0],$param_array[1]),
+            'menu_status_todo' => $this->getMenuStatusTodo($param_array[0], $param_array[1]),
         ]);
     }
 
@@ -445,9 +444,12 @@ class TodoTimeController extends Controller
             }
 
             foreach ($data as $k => $v) {
-
-                $n = strlen($v['ts']) % 2 ? '0' . $v['ts'] : $v['ts'];
-                $data[$k]['date_array'] = str_split($n, 2);
+                if ($v['sum_hour'] >= 0) {  // удаление некорректных данный у которых нет времени изменения и сумма часов меньше 0
+                    $n = strlen($v['ts']) % 2 ? '0' . $v['ts'] : $v['ts'];
+                    $data[$k]['date_array'] = str_split($n, 2);
+                }else{
+                    unset($data[$k]);
+                }
             }
 
 
@@ -518,7 +520,7 @@ class TodoTimeController extends Controller
     }
 
 
-    public function actionTodoDataTable()
+    public function actionTodoTimeTable()
     {
         //  $this->noDataRedirect();
 
@@ -532,7 +534,7 @@ class TodoTimeController extends Controller
 
 
         if ($n == 3) {
-            return $this->actionTodoQuantityMonth();
+            return $this->actionTodoTimeYear();
         } elseif ($n == 2 && $url_a[2] != 'select-data' && $url_a[2] != 'multi-years') {
 
             return $this->actionTodoQuantityYear();

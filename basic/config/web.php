@@ -213,12 +213,12 @@ $config = [
                         //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
                 [
-                    'pattern' => 'todo-time/<type:[1-6]>-<year:20[0-9][0-9]>-<status:([1-9]|[1-2][0-7])>',
+                    'pattern' => 'todo-time/<type:[1-5]>-<year:20[0-9][0-9]>-<status:([1-9]|[1-2][0-7])>',
                     'route' => 'todo-time/todo-time-year',
                         //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
                 [
-                    'pattern' => 'todo-time/<type:[1-6]>-<year:20[0-9][0-9]>-<status:([1-9]|[1-2][0-7])>/table',
+                    'pattern' => 'todo-time/<type:[1-5]>-<year:20[0-9][0-9]>-<status:([1-9]|[1-2][0-7])>/table',
                     'route' => 'todo-time/todo-time-table',
                         //'defaults' => ['page' => 1, 'tag' => ''],
                 ],

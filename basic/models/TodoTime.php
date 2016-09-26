@@ -88,14 +88,15 @@ class TodoTime extends Model
 from
 (select todo_id,init_time, round(init_time/1000000)as ts from todo_list where init_time between :period_from and :period_to  and todo_type= :todo_type and ver=0) as tab1 inner join
 
-(select todo_id,subj,ref_net_id,todo_state,upd_time from todo_list where init_time between :period_from and :period_to and todo_type = :todo_type and todo_state in ($todo_status_string) group by todo_id) as tab2 on (tab1.todo_id=tab2.todo_id))
-as tab3 where sum_hour< :todo_time_limit")
+(select todo_id,subj,ref_net_id,todo_state,upd_time from todo_list where init_time between :period_from and :period_to and todo_type = :todo_type and todo_state in ($todo_status_string) ORDER by upd_time DESC) as tab2 on (tab1.todo_id=tab2.todo_id))
+as tab3 where sum_hour< :todo_time_limit group by todo_id")
                 ->bindValues($params)
                 ->queryAll();
-           // ->rawSql;
+            //->rawSql;
 
+            //Debugger::Eho($data);
+            //Debugger::testDie();
 
-         //   Debugger::Eho($data);
         } elseif ($sql_type && $sql_type == 2) {
 
             $params = array(
@@ -115,10 +116,16 @@ as tab3 where sum_hour< :todo_time_limit")
 from
 (select todo_id,init_time, round(init_time/1000000)as ts from todo_list where init_time between :period_from and :period_to  and todo_type= :todo_type and ver=0 and exec_list like '%-17%' and ref_acc_id>0 and ref_net_id<>1000 and admin_id<>-1) as tab1 inner join
 
-(select todo_id,subj,ref_net_id,todo_state,upd_time from todo_list where init_time between :period_from and :period_to and todo_type = :todo_type and todo_state in ($todo_status_string) and exec_list like '%-17%' and ref_acc_id>0 and ref_net_id<>1000 and admin_id<>-1 group by todo_id) as tab2 on (tab1.todo_id=tab2.todo_id))
-as tab3 where sum_hour< :todo_time_limit")
+(select todo_id,subj,ref_net_id,todo_state,upd_time from todo_list where init_time between :period_from and :period_to and todo_type = :todo_type and todo_state in ($todo_status_string) and exec_list like '%-17%' and ref_acc_id>0 and ref_net_id<>1000 and admin_id<>-1 ORDER by upd_time DESC) as tab2 on (tab1.todo_id=tab2.todo_id))
+as tab3 where sum_hour< :todo_time_limit group by todo_id")
                 ->bindValues($params)
                 ->queryAll();
+           // ->rawSql;
+
+
+        //    Debugger::Eho($data);
+         //   Debugger::testDie();
+
         } elseif ($sql_type && $sql_type == 3) {
 
             // Debugger::Eho($p_mid_e);
@@ -141,8 +148,8 @@ as tab3 where sum_hour< :todo_time_limit")
 from
 (select todo_id,init_time, round(init_time/1000000)as ts from todo_list where init_time between :period_from and :period_to  and todo_type= :todo_type and ver=0) as tab1 inner join
 
-(select todo_id,subj,ref_net_id,todo_state,upd_time from todo_list where init_time between :period_from and :period_to and todo_type = :todo_type and todo_state in ($todo_status_string) group by todo_id) as tab2 on (tab1.todo_id=tab2.todo_id))
-as tab3 where sum_hour< :todo_time_limit")
+(select todo_id,subj,ref_net_id,todo_state,upd_time from todo_list where init_time between :period_from and :period_to and todo_type = :todo_type and todo_state in ($todo_status_string) ORDER by upd_time DESC) as tab2 on (tab1.todo_id=tab2.todo_id))
+as tab3 where sum_hour< :todo_time_limit group by todo_id")
                 ->bindValues($params)
                 ->queryAll();
             //->rawSql;
@@ -165,8 +172,8 @@ as tab3 where sum_hour< :todo_time_limit")
 from
 (select todo_id,init_time, round(init_time/1000000)as ts from todo_list where init_time between :period_from and :period_to  and todo_type= :todo_type and ver=0 and exec_list like '%-17%' and ref_acc_id>0 and ref_net_id<>1000 and admin_id<>-1) as tab1 inner join
 
-(select todo_id,subj,ref_net_id,todo_state,upd_time from todo_list where init_time between :period_from and :period_to and todo_type = :todo_type and todo_state in ($todo_status_string) and exec_list like '%-17%' and ref_acc_id>0 and ref_net_id<>1000 and admin_id<>-1 group by todo_id) as tab2 on (tab1.todo_id=tab2.todo_id))
-as tab3 where sum_hour< :todo_time_limit")
+(select todo_id,subj,ref_net_id,todo_state,upd_time from todo_list where init_time between :period_from and :period_to and todo_type = :todo_type and todo_state in ($todo_status_string) and exec_list like '%-17%' and ref_acc_id>0 and ref_net_id<>1000 and admin_id<>-1 ORDER by upd_time DESC) as tab2 on (tab1.todo_id=tab2.todo_id))
+as tab3 where sum_hour< :todo_time_limit group by todo_id")
                 ->bindValues($params)
                 ->queryAll();
 
