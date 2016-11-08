@@ -8,7 +8,17 @@ use app\components\debugger\Debugger;
 
 $url_table = Yii::$app->request->url . "/table";
 $url_compare = '/todo/multi-years';
-$url_all = '/todo/' . $todo_type;
+//$url_all = '/todo/' . $todo_type;
+
+if($graph_type == 1){
+    $url_graph_type = Yii::$app->request->url .'/two-columns';
+    $graph_type_name = 'График двухколоночный';
+}elseif($graph_type == 2){
+    $url_graph_type = str_replace('/two-columns', '', Yii::$app->request->url);
+    $graph_type_name = 'График одноколоночный';
+}else{
+    $url_graph_type = '';
+}
 
 ?>
 
@@ -35,12 +45,12 @@ $url_all = '/todo/' . $todo_type;
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-left'],
         'items' => [
-            ['label' => 'Подключения', 'url' => "/todo-time/1-$year-$todo_status", 'active' => ("/todo-time/1-$year-$todo_status" == Yii::$app->request->url || "/todo-time/1-$year-$todo_status/line" == Yii::$app->request->url)],
-            ['label' => 'Обращение в суппорт', 'url' => "/todo-time/2-$year-$todo_status", 'active' => ("/todo-time/2-$year-$todo_status" == Yii::$app->request->url || "/todo-time/2-$year-$todo_status/line" == Yii::$app->request->url)],
-            ['label' => 'Вызовы на дом', 'url' => "/todo-time/3-$year-$todo_status", 'active' => ("/todo-time/3-$year-$todo_status" == Yii::$app->request->url || "/todo-time/3-$year-$todo_status/line" == Yii::$app->request->url)],
-            ['label' => 'Аварии', 'url' => "/todo-time/4-$year-$todo_status", 'active' => ("/todo-time/4-$year-$todo_status" == Yii::$app->request->url || "/todo-time/4-$year-$todo_status/line" == Yii::$app->request->url)],
-            ['label' => 'Админ-аварии', 'url' => "/todo-time/5-$year-$todo_status", 'active' => ("/todo-time/5-$year-$todo_status" == Yii::$app->request->url || "/todo-time/5-$year-$todo_status/line" == Yii::$app->request->url)],
-            // "<li class='batton_position_5'><p ><a class='btn btn-default btn-lg' href='$url_all'> Общий график </a></p></li>",
+            ['label' => 'Подключения', 'url' => "/todo-time/1-$year-$todo_status", 'active' => ("/todo-time/1-$year-$todo_status" == Yii::$app->request->url || "/todo-time/1-$year-$todo_status/line" == Yii::$app->request->url || "/todo-time/1-$year-$todo_status/two-columns" == Yii::$app->request->url)],
+            ['label' => 'Обращение в суппорт', 'url' => "/todo-time/2-$year-$todo_status", 'active' => ("/todo-time/2-$year-$todo_status" == Yii::$app->request->url || "/todo-time/2-$year-$todo_status/line" == Yii::$app->request->url || "/todo-time/2-$year-$todo_status/two-columns" == Yii::$app->request->url)],
+            ['label' => 'Вызовы на дом', 'url' => "/todo-time/3-$year-$todo_status", 'active' => ("/todo-time/3-$year-$todo_status" == Yii::$app->request->url || "/todo-time/3-$year-$todo_status/line" == Yii::$app->request->url || "/todo-time/3-$year-$todo_status/two-columns" == Yii::$app->request->url)],
+            ['label' => 'Аварии', 'url' => "/todo-time/4-$year-$todo_status", 'active' => ("/todo-time/4-$year-$todo_status" == Yii::$app->request->url || "/todo-time/4-$year-$todo_status/line" == Yii::$app->request->url || "/todo-time/4-$year-$todo_status/two-columns" == Yii::$app->request->url)],
+            ['label' => 'Админ-аварии', 'url' => "/todo-time/5-$year-$todo_status", 'active' => ("/todo-time/5-$year-$todo_status" == Yii::$app->request->url || "/todo-time/5-$year-$todo_status/line" == Yii::$app->request->url || "/todo-time/5-$year-$todo_status/two-columns" == Yii::$app->request->url)],
+             "<li class='batton_position_5'><p ><a class='btn btn-default btn-lg' href=".$url_graph_type.">  $graph_type_name </a></p></li>",
              "<li class='batton_position_6'><p ><a class='btn btn-default btn-lg' href=".$url_table.">Табл. данных</a></p></li>"
         ],
     ]); ?>

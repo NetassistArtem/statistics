@@ -16,7 +16,7 @@ class TodoTimeController extends Controller
 {
 
 
-    private function chartCreater1($file_name, $chart_name, $date_format, $data_y_right, $data_y_left, $data_x, $name_y_right, $name_y_left, $name_x, $max_YAxis_right, $max_YAxis_left, $text_angle_X, array $color_pallet, $x_interval = 1)
+    private function chartCreater1($file_name, $chart_name, $date_format, $data_y_right, $data_y_left, $data_x, $name_y_right, $name_y_left, $name_x, $max_YAxis_right, $max_YAxis_left, $text_angle_X, array $color_pallet, $x_interval = 1, $graph_type = 1)
     {
 
         include_once(__DIR__ . '/../vendor/pChart/pChart/pData.class');
@@ -65,9 +65,12 @@ class TodoTimeController extends Controller
         $Test->drawScale($DataSet->GetData(), $DataSet->GetDataDescription(), SCALE_NORMAL, $color_pallet['hours'][0], $color_pallet['hours'][1], $color_pallet['hours'][2], TRUE, $text_angle_X, 0, TRUE, $x_interval);
         $Test->drawGrid(4, TRUE, 230, 230, 230, 50);
 
-
-        $Test->drawBarGraph($DataSet->GetData(), $DataSet->GetDataDescription(), TRUE);
-
+//выбор типа графика, одноколончный или двухколоночный
+        if ($graph_type == 1) {
+            $Test->drawStackedBarGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 20);
+        } elseif ($graph_type == 2) {
+            $Test->drawBarGraph($DataSet->GetData(), $DataSet->GetDataDescription(), TRUE);//график с двумя колонками
+        }
         $Test->setFontProperties(__DIR__ . '/../vendor/pChart/Fonts/tahoma.ttf', 12);
         $Test->writeValues($DataSet->GetData(), $DataSet->GetDataDescription(), array('Serie1'));
         $Test->setFontProperties(__DIR__ . '/../vendor/pChart/Fonts/tahoma.ttf', 10);
@@ -92,7 +95,13 @@ class TodoTimeController extends Controller
         $Test->setFontProperties(__DIR__ . '/../vendor/pChart/Fonts/tahoma.ttf', 6);
         $Test->drawTreshold(0, 143, 55, 72, TRUE, TRUE);
 
-        $Test->drawBarGraph($DataSet->GetData(), $DataSet->GetDataDescription(), TRUE);
+        //выбор типа графика, одноколончный или двухколоночный
+
+        if ($graph_type == 1) {
+            $Test->drawStackedBarGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 20);
+        } elseif ($graph_type == 2) {
+            $Test->drawBarGraph($DataSet->GetData(), $DataSet->GetDataDescription(), TRUE);//график с двумя колонками
+        }
 
         // Write the legend (box less)
         $Test->setFontProperties(__DIR__ . '/../vendor/pChart/Fonts/tahoma.ttf', 10);
@@ -107,6 +116,37 @@ class TodoTimeController extends Controller
 
         // Render the picture
         $Test->Render(__DIR__ . '/../web/images/' . $file_name . '.png');
+    }
+
+    private function todoType($number)
+    {
+        switch ($number) {
+            case 1:
+                return Yii::$app->params['todo_type'][1];
+                break;
+
+            case 2:
+                return Yii::$app->params['todo_type'][2];
+                break;
+
+            case 3:
+                return Yii::$app->params['todo_type'][3];
+                break;
+
+            case 4:
+                return Yii::$app->params['todo_type'][4];
+                break;
+
+            case 5:
+                return Yii::$app->params['todo_type'][5];
+                break;
+            case 6:
+                return Yii::$app->params['todo_type'][6];
+                break;
+
+            default:
+                return Yii::$app->params['todo_type'][1];
+        }
     }
 
 
@@ -133,7 +173,7 @@ class TodoTimeController extends Controller
     {
         $menu_years_item = array();
         for ($i = 2008; $i <= Yii::$app->formatter->asDate(time(), 'Y'); $i++) {
-            $menu_years_item[] = ['label' => "$i", 'url' => "/todo-time/$todo_type-$i-$todo_status", "options" => ["id" => "$i"], 'active' => ("/todo-time/$todo_type-$i-$todo_status" == Yii::$app->request->url || "/todo-time/$todo_type-$i-$todo_status/line" == Yii::$app->request->url) ||
+            $menu_years_item[] = ['label' => "$i", 'url' => "/todo-time/$todo_type-$i-$todo_status", "options" => ["id" => "$i"], 'active' => ("/todo-time/$todo_type-$i-$todo_status" == Yii::$app->request->url || "/todo-time/$todo_type-$i-$todo_status/line" == Yii::$app->request->url || "/todo-time/$todo_type-$i-$todo_status/two-columns" == Yii::$app->request->url) ||
                 strpos(Yii::$app->request->url, (string)$i)];
 
         }
@@ -180,7 +220,7 @@ class TodoTimeController extends Controller
         return $menu_years_item;
     }
 
-    private function getMenuStatusTodo($todo_type, $year)
+    private function getMenuStatusTodo($todo_type = 1, $year = 2010)
     {
         $menu_status_array = array();
         foreach (Yii::$app->params['todo_status_for_time'] as $k => $v) {
@@ -192,9 +232,9 @@ class TodoTimeController extends Controller
                 $g_color = $v['color'][1];
                 $b_color = $v['color'][2];
 
-                $menu_status_array[$parent][$k] = ['label' => "$name", 'url' => "/todo-time/$todo_type-$year-$k", "options" => ["id" => "$k", "style" => "background-color: rgb( $r_color,$g_color,$b_color)"], 'active' => ("/todo-time/$todo_type-$year-$k" == Yii::$app->request->url || "/todo-time/$todo_type-$year-$k/line" == Yii::$app->request->url)];
+                $menu_status_array[$parent][$k] = ['label' => "$name", 'url' => "/todo-time/$todo_type-$year-$k", "options" => ["id" => "$k", "style" => "background-color: rgb( $r_color,$g_color,$b_color)"], 'active' => ("/todo-time/$todo_type-$year-$k" == Yii::$app->request->url || "/todo-time/$todo_type-$year-$k/line" == Yii::$app->request->url || "/todo-time/$todo_type-$year-$k/two-columns" == Yii::$app->request->url)];
             } else {
-                $menu_status_array[$parent][$k] = ['label' => "$name", 'url' => "/todo-time/$todo_type-$year-$k", "options" => ["id" => "$k"], 'active' => ("/todo-time/$todo_type-$year-$k" == Yii::$app->request->url || "/todo-time/$todo_type-$year-$k/line" == Yii::$app->request->url)];
+                $menu_status_array[$parent][$k] = ['label' => "$name", 'url' => "/todo-time/$todo_type-$year-$k", "options" => ["id" => "$k"], 'active' => ("/todo-time/$todo_type-$year-$k" == Yii::$app->request->url || "/todo-time/$todo_type-$year-$k/line" == Yii::$app->request->url || "/todo-time/$todo_type-$year-$k/two-columns" == Yii::$app->request->url)];
             }
 
         }
@@ -255,6 +295,7 @@ class TodoTimeController extends Controller
         $todo_type = Yii::$app->params['todo_type'][$param_array[0]];//$this->todoType($param_array[0]);
 
         $todo_status_array = Yii::$app->params['todo_status_for_time'];
+
         $todo_status = $todo_status_array[$param_array[2]];
 
         $todoTimeModel = new TodoTime();
@@ -273,7 +314,7 @@ class TodoTimeController extends Controller
                 exit;
             }
 
-
+            $graph_type = 1;
             $max_y_scale = max($data_year['data_todo_full']) < 10 ? 10 : (max($data_year['data_todo_full']) + 5);
 
             $this->chartCreater2($todo_type['name_file'], $graph_name, $data_year['data_todo_full'], $data_year['data_time_full'], 'Количество заявок', 'Дата', 'Y-m-d', $max_y_scale, 90, Yii::$app->params['colors_todo'][$param_array[0]], 7);
@@ -281,7 +322,9 @@ class TodoTimeController extends Controller
         } else {
 
             $data_year = $this->todoTimeData($todoTimeModel, "Ym", $start_period, $end_period, $todo_type, $todo_status['data_id']);
-         //   Debugger::PrintR($data_year);
+            // Debugger::PrintR($data_year);
+
+
             if (empty($data_year['data'])) {
                 header("Location: /todo-time/$url_array[2]/no-data-in-request");
                 exit;
@@ -332,9 +375,15 @@ class TodoTimeController extends Controller
                 'data' => $data_year['data_todo']
             );
 */
+            $graph_type = 1;
+            if (isset($url_array[3]) && $url_array[3] == 'two-columns') {
+                $graph_type = 2;
+            }
 
-            $this->chartCreater1($todo_type['name_file'], $graph_name, 'Y-m', $data_year['data_hours'], $data_year['data_todo'], $data_year['data_time'], 'Количество заявок', 'Средне время обработки ТОДО, час', 'Дата', $max_y_scale_right, $max_y_scale_left, $text_angle, Yii::$app->params['todo_time_color']);
+            $this->chartCreater1($todo_type['name_file'], $graph_name, 'Y-m', $data_year['data_hours'], $data_year['data_todo'], $data_year['data_time'], 'Количество заявок', 'Средне время обработки ТОДО, час', 'Дата', $max_y_scale_right, $max_y_scale_left, $text_angle, Yii::$app->params['todo_time_color'],1, $graph_type);
         }
+
+
         $line = 0;
         if (isset($url_array[3])) {
             if ($url_array[3] == 'table') {
@@ -343,6 +392,8 @@ class TodoTimeController extends Controller
             } elseif ($url_array[3] == 'line') {
                 $views_name = 'todo_year';
                 $line = 1;
+            } elseif ($url_array[3] == 'two-columns') {
+                $views_name = 'todo_time_year';
             } else {
                 throw new Exception('Страница не найдена');
             }
@@ -363,7 +414,10 @@ class TodoTimeController extends Controller
             'name_file' => $todo_type['name_file'],
             'menu_items_years' => $this->getMenuItemsYears($param_array[0], $param_array[2], $param_array[1], $line),
             'line' => $line,
+            'graph_type' => $graph_type,
             'menu_status_todo' => $this->getMenuStatusTodo($param_array[0], $param_array[1]),
+
+
         ]);
     }
 
@@ -390,6 +444,7 @@ class TodoTimeController extends Controller
 
         $data = $todoTimeModel->TodoSelect($start_period, $end_period, $todo_type['type_id'], $todo_status);
 //Debugger::PrintR($data);
+        // Debugger::testDie();
 
         //   $todo_status_data = Yii::$app->params['todo_status'];
 
@@ -447,7 +502,7 @@ class TodoTimeController extends Controller
                 if ($v['sum_hour'] >= 0) {  // удаление некорректных данный у которых нет времени изменения и сумма часов меньше 0
                     $n = strlen($v['ts']) % 2 ? '0' . $v['ts'] : $v['ts'];
                     $data[$k]['date_array'] = str_split($n, 2);
-                }else{
+                } else {
                     unset($data[$k]);
                 }
             }
@@ -541,7 +596,7 @@ class TodoTimeController extends Controller
         } elseif (isset($url_a[2]) && $url_a[2] == 'select-data' && $url_a[3] == 'table') {
 
 
-            return $this->actionSelectData(Yii::$app->request->get('year_start'), Yii::$app->request->get('year_end'), Yii::$app->request->get('todo_type'), Yii::$app->request->get('todo_status'), Yii::$app->request->get('todo_location'));
+            return $this->actionSelectData(Yii::$app->request->get('year_start'), Yii::$app->request->get('year_end'), Yii::$app->request->get('todo_type'), Yii::$app->request->get('todo_status'));
 
         } elseif (isset($url_a[2]) && $url_a[2] == 'select-data' && $url_a[3] != 'table') {
 
@@ -559,6 +614,179 @@ class TodoTimeController extends Controller
         } else {
             return null;
         }
+    }
+
+
+    public function actionSelectData($year_start_table = null, $year_end_table = null, $todo_type_table = null, $todo_status_table = null)
+    {
+
+
+        $todoTimeModel = new TodoTime();
+        $modelTodoTimeForm = new TodoTimeForm();
+
+
+        $u = explode('?', Yii::$app->request->url);
+
+        $url_array = explode("/", $u[0]);
+
+        $label = $todoTimeModel->attributeLabels();
+        $date_today = Yii::$app->formatter->asDate('now', 'yyyy');
+
+        $todo_type_id = Yii::$app->params["default_value"]["todo_time"]["year_todo_type"];
+        $todo_type = Yii::$app->params['todo_type'][$todo_type_id];
+        $start_year = ($date_today - 1999) - Yii::$app->params['year-period-select-todo-time'];
+        $end_year = ($date_today - 1999);
+        $start_period = $start_year . '01';
+        $end_period = ($end_year) . '01';
+
+        $todo_status_array = Yii::$app->params['todo_status_for_time'];
+
+        $todo_status_id = Yii::$app->params["default_value"]["todo_time"]["year_todo_status"];
+
+        $todo_status = $todo_status_array[$todo_status_id];
+
+        if (Yii::$app->request->post()) {
+            if (Yii::$app->request->post('TodoTimeForm')['year_from'] <= Yii::$app->request->post('TodoTimeForm')['year_to']) {
+                $todo_t = Yii::$app->request->post('TodoTimeForm')['todo_type'];
+                $todo_type = Yii::$app->params['todo_type'][$todo_t];
+                $start_p = Yii::$app->request->post('TodoTimeForm')['year_from'];
+                $end_p = (Yii::$app->request->post('TodoTimeForm')['year_to'] + 1);
+                $todo_st = Yii::$app->request->post('TodoTimeForm')['todo_status'];
+
+                $modelTodoTimeForm->year_to = ($end_p - 1);
+                $modelTodoTimeForm->year_from = $start_p;
+                $modelTodoTimeForm->todo_type = $todo_t;
+                $modelTodoTimeForm->todo_status = $todo_st;
+
+            } else {
+                Yii::$app->session->addFlash('dateHight', 'Дата начала приода должна быть меньше даты окончания периода! Введите данные еще раз.');
+
+            }
+
+        }
+
+
+        if (isset($start_p) && isset($end_p) && isset($todo_t) && isset($todo_st)) {
+
+            $todo_type = Yii::$app->params['todo_type'][$todo_t];
+            $start_year = $start_p;
+            $end_year = $end_p;
+
+            $start_period = $start_year . '01';
+            $end_period = $end_year . '01';
+            $todo_status = $todo_status_array[$todo_st];
+
+        }
+
+        if (isset($year_start_table) && isset($year_end_table) && isset($todo_type_table)) {
+
+            $todo_type = Yii::$app->params['todo_type'][$todo_type_table];
+            $start_year = round($year_start_table / 100);
+//Debugger::Eho($start_year);
+            //    Debugger::testDie();
+            $end_year = round($year_end_table / 100);
+
+            $start_period = $year_start_table;
+            $end_period = $year_end_table;
+            $todo_status = $todo_status_array[$todo_status_table];
+            //  $todo_type_array = Yii::$app->params['todo_type'][$todo_type];
+        }
+
+        $data_year = $this->todoTimeData($todoTimeModel, "Ym", $start_period, $end_period, $todo_type, $todo_status['data_id']);
+
+        if (empty($data_year['data'])) {
+            header("Location: /todo-time/$url_array[2]/no-data-in-request");
+            exit;
+        }
+
+        $max_y_scale_left = max($data_year['data_todo']) < 100 ? 100 : (max($data_year['data_todo']) + 25);
+        $max_y_scale_right = max($data_year['data_hours']) < 200 ? 200 : (max($data_year['hours_todo']) + 15);
+        $text_angle = count($data_year['data_time']) < 15 ? 0 : 90;
+
+        $graph_name = 'Среднее время обработки TODO. ' . $todo_type['name'] . ', ' . $todo_status['name'] . ', за период ' . ($start_year + 2000) . ' - ' . ($end_year + 1999) . ' год';
+
+
+        if (($end_period - $start_period) > 100) {
+            array_pop($data_year['data_todo']); //удаление последнего пустого значения
+            array_pop($data_year['data_hours']);//удаление последнего пустого значения
+            array_pop($data_year['data_time']); //удаление последнего пустого значения
+        }
+        $graph_type = 1;
+        if (isset($url_array[3]) && $url_array[3] == 'two-columns') {
+
+            $graph_type = 2;
+        }
+
+        $this->chartCreater1($todo_type['name_file'], $graph_name, 'Y-m', $data_year['data_hours'], $data_year['data_todo'], $data_year['data_time'], 'Количество заявок', 'Средне время обработки ТОДО, час', 'Дата', $max_y_scale_right, $max_y_scale_left, $text_angle, Yii::$app->params['todo_time_color'],1, $graph_type);
+
+
+        $line = 0;
+        if (isset($url_array[3])) {
+            if ($url_array[3] == 'table') {
+
+                $views_name = 'todo_time_table';
+            } elseif ($url_array[3] == 'line') {
+                $views_name = 'todo_year';
+                $line = 1;
+            } elseif ($url_array[3] == 'two-columns') {
+                $views_name = 'select-data-time';
+            } else {
+                throw new Exception('Страница не найдена');
+            }
+        } else {
+            $views_name = 'select-data-time';
+        }
+
+
+        $years_array = array();
+        for ($i = 2008; $i <= ((int)$date_today); $i++) {
+            $years_array[$i - 2000] = $i;
+        }
+        $todo_type_a = array();
+        for ($i = 1; $i <= 6; $i++) {
+            $todo_type_a[$i] = $this->todoType($i)['name'];
+        }
+
+
+        $todo_status_array_dif = $this->getMenuStatusTodo();
+        $todo_status_a = array();
+        foreach ($todo_status_array_dif as $k => $v) {
+            $title_label_2 = str_replace('Все(', '', $v[$k]['label']);
+            $title_label = str_replace(')', '', $title_label_2);
+            $title_label = mb_strtoupper($title_label);
+            $todo_status_a[$title_label] = array();
+            foreach ($v as $key => $val) {
+                $todo_status_a[$title_label][$key] = $val['label'];
+            }
+        }
+
+        $chart_name_year = 'charges_by_network_all';
+        $todo_status_name = $todo_status['name'];
+
+        if (count($data_year['data_dif']) > 1) {
+            array_pop($data_year['data_dif']);
+        }
+
+
+        return $this->render($views_name, [
+            'label' => $label,
+            'chart_name_year' => $chart_name_year,
+            'data' => $data_year['data_dif'],
+            'todo_type' => $todo_type_id,
+            'name' => $todo_type['name'],
+            'name_file' => $todo_type['name_file'],
+            'start_period' => $start_period,
+            'end_period' => $end_period,
+            'start_year' => $start_year,
+            'end_year' => $end_year,
+            'model_todo_form' => $modelTodoTimeForm,
+            'years_array' => $years_array,
+            'todo_type_a' => $todo_type_a,
+            'todo_status_a' => $todo_status_a,
+            'todo_status' => $todo_status_id,
+            'todo_status_name' => $todo_status_name,
+            'graph_type' => $graph_type,
+        ]);
     }
 
 

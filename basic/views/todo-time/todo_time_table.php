@@ -7,8 +7,6 @@ use yii\bootstrap\NavBar;
 use app\components\debugger\Debugger;
 
 
-
-
 if (isset($todo_type) && isset($year) && isset($todo_status)) {
     $url_last_part = $todo_type . '-' . $year . '-' . $todo_status;
     $t_y = '';
@@ -44,6 +42,11 @@ if (isset($todo_type) && isset($year) && isset($todo_status)) {
 }
 $year_today = Yii::$app->formatter->asDate(time(), 'Y');
 $year_month_today = Yii::$app->formatter->asDate('now', 'yyyy-MM');
+
+//Debugger::Eho('</br>');
+//Debugger::Eho('</br>');
+//Debugger::Eho($years_month_day);
+//Debugger::testDie();
 ?>
 
 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -59,7 +62,7 @@ $year_month_today = Yii::$app->formatter->asDate('now', 'yyyy-MM');
         'items' => [
             ['label' => 'Вернуться к графику', 'url' => "/todo-time/$url_last_part", 'options' => ['class' => 'ttt']],
             //   ['label' => 'График общий', 'url' => "/charges", 'options' =>['class' => 'ttt']],
-          //  ['label' => 'График по месяцам', 'url' => "/todo/$todo_type-$year_today", 'options' => ['class' => 'ttt']],
+            //  ['label' => 'График по месяцам', 'url' => "/todo/$todo_type-$year_today", 'options' => ['class' => 'ttt']],
             //    ['label' => 'График по дням', 'url' => "/charges/$user_type-$year_month_today", 'options' =>['class' => 'ttt']],
         ],
     ]);
@@ -70,8 +73,9 @@ $year_month_today = Yii::$app->formatter->asDate('now', 'yyyy-MM');
 
 <div class="margin-bottom " id='all'></div>
 
-<h3 class="text-center margin-top">Время обработки TODO. <?= $name ?>. <?= isset($year) ? 'За ' . $year . ' год ' : $t_y ?>  <?= isset($month) ? $month . ' месяц' : $t_m ?>.
-    <?= isset($todo_status) ? 'TODO в статусе - "'.$todo_status_name.'".' : '' ?>
+<h3 class="text-center margin-top">Время обработки TODO. <?= $name ?>
+    . <?= isset($year) ? 'За ' . $year . ' год ' : $t_y ?>  <?= isset($month) ? $month . ' месяц' : $t_m ?>.
+    <?= isset($todo_status) ? 'TODO в статусе - "' . $todo_status_name . '".' : '' ?>
 
 </h3>
 
@@ -133,6 +137,7 @@ $year_month_today = Yii::$app->formatter->asDate('now', 'yyyy-MM');
                     <?php endforeach;
 
                 elseif ($years_month_day == 3):
+
                     foreach ($data[(int)str_replace(20, '', $year)] as $key => $val):
                         foreach ($val as $key_item => $val_item):
                             if (is_array($val_item)):
@@ -167,14 +172,14 @@ $year_month_today = Yii::$app->formatter->asDate('now', 'yyyy-MM');
                         endforeach; ?>
 
                         <tr class="thead_<?= $todo_type ?>">
-                            <td colspan="1" >Месяц</td>
-                            <td colspan="5" >Количество заявок</td>
-                            <td colspan="5" >Среднее количество часов</td>
+                            <td colspan="1">Месяц</td>
+                            <td colspan="5">Количество заявок</td>
+                            <td colspan="5">Среднее количество часов</td>
                         </tr>
-                        <tr class="thead_<?= $todo_type ?>" >
-                            <td colspan="1" ><?= $key ?></td>
-                            <td colspan="5" ><?= $val['count'] ?></td>
-                            <td colspan="5" ><?= $val['average_hours'] ?></td>
+                        <tr class="thead_<?= $todo_type ?>">
+                            <td colspan="1"><?= $key ?></td>
+                            <td colspan="5"><?= $val['count'] ?></td>
+                            <td colspan="5"><?= $val['average_hours'] ?></td>
                         </tr>
 
                     <?php endforeach;
@@ -209,40 +214,59 @@ $year_month_today = Yii::$app->formatter->asDate('now', 'yyyy-MM');
                     <?php endforeach;
                 elseif ($years_month_day == 4):
 
-                    foreach ($data as $key => $val):
-                        foreach ($val as $key_m => $val_m):
-                            foreach ($val_m as $key_d => $val_d):
-
-                                if (is_array($val_d)):
+                  //  Debugger::PrintR($data);
+                  //  Debugger::testDie();
+                    foreach ($data as $key_1 => $val_1):
+                        foreach ($val_1 as $key => $val):
+                            foreach ($val as $key_item => $val_item):
+                                if (is_array($val_item)):
                                     ?>
                                     <tr>
-                                        <td><?= isset($val_d['todo_id']) ? $val_d['todo_id'] : '' ?></td>
 
-                                        <td><?= isset($val_d['init_time']) ? $val_d['init_time'] : '' ?></td>
+                                        <td><?= isset($val_item['ts']) ? $val_item['ts'] : '' ?></td>
 
-                                        <td><?= isset($val_d['ref_net_id']) ? $val_d['ref_net_id'] : '' ?></td>
+                                        <td><?= isset($val_item['todo_id']) ? $val_item['todo_id'] : '' ?></td>
 
-                                        <td><?= isset($val_d['todo_state']) ? $val_d['todo_state'] : '' ?></td>
+                                        <td><?= isset($val_item['ref_net_id']) ? $val_item['ref_net_id'] : '' ?></td>
 
-                                        <td><?= isset($val_d['subj']) ? $val_d['subj'] : '' ?></td>
+                                        <td><?= isset($val_item['todo_state']) ? $val_item['todo_state'] : '' ?></td>
+
+                                        <td><?= isset($val_item['subj']) ? $val_item['subj'] : '' ?></td>
+
+                                        <td><?= isset($val_item['init_time']) ? $val_item['init_time'] : '' ?></td>
+
+                                        <td><?= isset($val_item['upd_time']) ? $val_item['upd_time'] : '' ?></td>
+
+                                        <td><?= isset($val_item['mon']) ? $val_item['mon'] : '' ?></td>
+
+                                        <td><?= isset($val_item['day']) ? $val_item['day'] : '' ?></td>
+
+                                        <td><?= isset($val_item['hour']) ? $val_item['hour'] : '' ?></td>
+
+                                        <td><?= isset($val_item['sum_hour']) ? $val_item['sum_hour'] : '' ?></td>
 
                                     </tr>
 
                                 <?php endif;
-                            endforeach;
+                            endforeach; ?>
 
-                            if ($key_m < 13):
-                                ?>
+                            <tr class="thead_<?= $todo_type ?>">
+                                <td colspan="2">Год / Месяц</td>
+                                <td colspan="4">Количество заявок</td>
+                                <td colspan="5">Среднее количество часов</td>
+                            </tr>
+                            <tr class="thead_<?= $todo_type ?>">
+                                <td colspan="2"><?= $key_1 + 2000 ?> / <?= $key ?></td>
+                                <td colspan="4"><?= $val['count'] ?></td>
+                                <td colspan="5"><?= $val['average_hours'] ?></td>
+                            </tr>
 
-                                <tr class="thead_<?= $todo_type ?>">
-                                    <td colspan="5">Количесто TODO (<?= $name ?>) за <?= $key ?> год, <?= $key_m ?> месяц  =
-                                        <b><?= $val_m['count'] ?> </b></td>
-                                </tr>
-
-                            <?php endif;
-                        endforeach;
-
+                        <?php endforeach;
                     endforeach;
+
+
+
+
 
                 endif;
             else:

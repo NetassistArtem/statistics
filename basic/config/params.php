@@ -6,6 +6,7 @@ return [
     'date-before' => '2007-09-27',
     'date-before-todo' => '2008-05-30',
     'year-period-select-data' => 5,
+    'year-period-select-todo-time' => 3, //количество лет отображаемое по умолчанию для графиков todo-time
     'years-compare' => 2,
     'colors_todo' => array(
         1 => array(100, 149, 237),
@@ -380,5 +381,13 @@ return [
     ),
 
     'todo_time_limit' => 150, //максимальное время обработки ТОДО. ТОДО, время обработки которых выше этого предела отсекаются фильтром
+    'default_value' => array(
+        'todo' => array(),
+        'todo_time' => array(
+            'year_todo_type' => 3,
+            'year_todo_status' => 8,
+            'year_year' => 2016,
+        )
+    ),
 ];
 

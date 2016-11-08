@@ -72,7 +72,9 @@ AppAsset::register($this);
                     preg_match("/\/todo\/\d{1}-\d{4}/", Yii::$app->request->url) ||
                     preg_match("/\/todo\/\d{1}/", Yii::$app->request->url) ||
                     Yii::$app->request->url == "/todo/select-data" ||
-                    preg_match("/\/todo-time\/\d{1}-\d{4}-\d{1,2}/", Yii::$app->request->url)
+                    preg_match("/\/todo-time\/\d{1}-\d{4}-\d{1,2}/", Yii::$app->request->url) ||
+                    Yii::$app->request->url == "/todo-time/select-data" ||
+                    Yii::$app->request->url == "/todo-time/select-data/two-columns"
                 ),
                 'items' => [
                     '<li class="dropdown-header">Количесто TODO</li>',
@@ -82,8 +84,8 @@ AppAsset::register($this);
 
                     '<li class="divider"></li>',
                     '<li class="dropdown-header">Время обработки TODO</li>',
-                    ['label' => 'Детальные графики', 'url' => '/todo-time/2-2016-11',],
-                    ['label' => 'График с выбором периода', 'url' => '',],
+                    ['label' => 'Детальные графики', 'url' => '/todo-time/'.Yii::$app->params["default_value"]["todo_time"]["year_todo_type"].'-'.Yii::$app->formatter->asDate("now", "yyyy").'-'.Yii::$app->params["default_value"]["todo_time"]["year_todo_status"],],
+                    ['label' => 'График с выбором периода', 'url' => '/todo-time/select-data',],
 
 
                 ],
