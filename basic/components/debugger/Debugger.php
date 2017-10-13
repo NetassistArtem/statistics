@@ -5,7 +5,7 @@ namespace app\components\debugger;
 
  abstract class Debugger
 {
-    private static $ip = '62.205.155.77';
+    private static $ip = '95.164.171.17';
 
     public static function PrintR($item)
     {

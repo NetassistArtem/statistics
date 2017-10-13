@@ -731,32 +731,37 @@ class StatisticsController extends Controller
         $label = $chargesModel->attributeLabels();
         $chart_name_home = 'charges_by_network_home';
         $color_pallet_home = array(100, 149, 237);
-        $this->chartCreater1('charges_by_network_home', "Домашние абоненты", $data_home['data_charge'], $data_home['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', 4200, 90, $color_pallet_home);
+        $max_y_scale_home = max($data_home['data_charge'])+500;
+        $this->chartCreater1('charges_by_network_home', "Домашние абоненты", $data_home['data_charge'], $data_home['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', $max_y_scale_home, 90, $color_pallet_home);
 
         $data_business_homenetwork = $this->totalCharges($chargesModel, "Y", "5", 0, "<=", 199, 1);
         $chart_name_business_homenetwork = 'charges_by_network_business_homenetwork';
         $color_pallet_business_homenetwork = array(60, 179, 113);
-        $this->chartCreater1('charges_by_network_business_homenetwork', "Бизнес абоненты с домосетью", $data_business_homenetwork['data_charge'], $data_business_homenetwork['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', 4200, 90, $color_pallet_business_homenetwork);
+        $max_y_scale_business_homenetwork = max($data_business_homenetwork['data_charge'])+500;
+        $this->chartCreater1('charges_by_network_business_homenetwork', "Бизнес абоненты с домосетью", $data_business_homenetwork['data_charge'], $data_business_homenetwork['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', $max_y_scale_business_homenetwork, 90, $color_pallet_business_homenetwork);
 
         $data_business_trunk = $this->totalCharges($chargesModel, "Y", "5", 0, "=", 200, 1);
         $chart_name_business_trunk = 'charges_by_network_business_trunk';
         $color_pallet_business_trunk = array(255, 215, 0);
-        $this->chartCreater1('charges_by_network_business_trunk', "Бизнес абоненты магистральные", $data_business_trunk['data_charge'], $data_business_trunk['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', 4200, 90, $color_pallet_business_trunk);
+        $max_y_scale_business_trunk = max($data_business_trunk['data_charge'])+500;
+        $this->chartCreater1('charges_by_network_business_trunk', "Бизнес абоненты магистральные", $data_business_trunk['data_charge'], $data_business_trunk['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', $max_y_scale_business_trunk, 90, $color_pallet_business_trunk);
 
         $data_homenetwork = $this->totalCharges($chargesModel, "Y", "5", 0, "<=", 199, '', 1);
         $chart_name_homenetwork = 'charges_by_network_homenetwork';
         $color_pallet_homenetwork = array(178, 34, 34);
-        $this->chartCreater1('charges_by_network_homenetwork', "Домосеть", $data_homenetwork['data_charge'], $data_homenetwork['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', 4200, 90, $color_pallet_homenetwork);
+        $max_y_scale_homenetwork = max($data_homenetwork['data_charge'])+500;
+        $this->chartCreater1('charges_by_network_homenetwork', "Домосеть", $data_homenetwork['data_charge'], $data_homenetwork['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', $max_y_scale_homenetwork, 90, $color_pallet_homenetwork);
 
         $data_all = $this->totalCharges($chargesModel, "Y", "5", 0, "<=", 200, '', 1);
         $chart_name_all = 'charges_by_network_all';
         $color_pallet_all = array(105, 105, 105);
-        $this->chartCreater1('charges_by_network_all', "Все абоненты", $data_all['data_charge'], $data_all['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', 4200, 90, $color_pallet_all);
+        $max_y_scale_all = max($data_all['data_charge'])+500;
+        $this->chartCreater1('charges_by_network_all', "Все абоненты", $data_all['data_charge'], $data_all['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', $max_y_scale_all, 90, $color_pallet_all);
 
 
         $chart_name_allinone = 'charges_by_network_allinone';
         $this->chartCreater4('charges_by_network_allinone', "Все абоненты", $data_all['data_charge'], $data_all['data_time'],
-            'Выручка, тысяч грн', 'Дата', 'Y', 4200, $data_home['data_charge'], $data_business_homenetwork['data_charge'], $data_business_trunk['data_charge'], $data_homenetwork['data_charge']);
+            'Выручка, тысяч грн', 'Дата', 'Y', $max_y_scale_all, $data_home['data_charge'], $data_business_homenetwork['data_charge'], $data_business_trunk['data_charge'], $data_homenetwork['data_charge']);
 
 
         return $this->render('charges_by_network', [

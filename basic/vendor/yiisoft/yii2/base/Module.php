@@ -296,7 +296,7 @@ class Module extends ServiceLocator
      * ```php
      * [
      *     '@models' => '@app/models', // an existing alias
-     *     '@backend' => __DIR__ . '/../backend',  // a directory
+     *     '@admin' => __DIR__ . '/../admin',  // a directory
      * ]
      * ```
      */

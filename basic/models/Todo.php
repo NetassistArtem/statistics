@@ -28,17 +28,36 @@ class Todo extends Model
             ':time_limit' => $date_now_with_month
         );
 
-        $data = Yii::$app->db->createCommand("select last, user_list.acc_id, user_name,user_list.net_id,user_addr,
+        /*$data = Yii::$app->db->createCommand("select last, user_list.acc_id, user_name,user_list.net_id,user_addr,
  del_mark  from user_list inner join (select round(last_t/1000000) as last,acc_id,net_id from (select  max(ptime_stamp2)
   as last_t, acc_id,net_id,enable  from svc_log where ptime_stamp2 between :period_from and :time_limit and enable=0
   and acc_id not in ( select DISTINCT(acc_id) from svc_log where enable in (1,-2)) $todo_loc group by acc_id
    order by last_t desc) as tab where tab.last_t between 70100000000 and :period_to) as tab on
-    (user_list.acc_id=tab.acc_id) where 1 group by  acc_id order by last")
+    (user_list.acc_id=tab.acc_id) where 1 group by  acc_id order by last")*/
+
+
+
+
+
+
+             $data = Yii::$app->db->createCommand("select round(last_l/1000000) as last, user_list.acc_id, user_name,user_list.net_id,user_addr,
+           del_mark  from user_list inner join (
+select tab1.last_l,tab1.acc_id,net_id from
+(select  max(ptime_stamp2) as last_l, svc_log.acc_id,net_id  from svc_log
+where  ptime_stamp2 between :period_from and :time_limit and enable=0  and net_id<100 group by acc_id order by last_l desc)
+          as tab1 left  join
+
+(  select DISTINCT(acc_id) from svc_log where enable in (1,-2) )  as tab2 on (tab1.acc_id=tab2.acc_id) where tab2.acc_id
+           is null and tab1.last_l between 070100000000 and :period_to $todo_loc
+
+) as tab on (user_list.acc_id=tab.acc_id) where 1 group by  acc_id order by last_l")
             ->bindValues($params)
             ->queryAll();
         // ->rawSql;
-        //Debugger::Eho($data);
-        //Debugger::testDie();
+       // Debugger::Eho($data);
+       // Debugger::PrintR($data);
+      //  Debugger::Eho(microtime(true) - $GLOBALS['start_time']);
+      //  Debugger::testDie();
 
         return $data;
     }

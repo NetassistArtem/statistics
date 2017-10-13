@@ -5,8 +5,10 @@ return [
     'homeUrl' => 'statistics/charges-by-network',
     'date-before' => '2007-09-27',
     'date-before-todo' => '2008-05-30',
-    'year-period-select-data' => 5,
+    'date-before-requests' => '2008-05-30',
+    'year-period-select-data' => 5,//количество лет отображаемое по умолчанию для графиков todo
     'year-period-select-todo-time' => 3, //количество лет отображаемое по умолчанию для графиков todo-time
+    'year-period-select-requests' => 2,//количество лет отображаемое по умолчанию для графиков requests
     'years-compare' => 2,
     'colors_todo' => array(
         1 => array(100, 149, 237),
@@ -18,6 +20,13 @@ return [
     ),
     'colors_statistic' => array(
         1 => array(100, 149, 237),
+        2 => array(60, 174, 113),
+        3 => array(255, 215, 0),
+        4 => array(178, 34, 34),
+        5 => array(105, 105, 105),
+    ),
+    'colors_requests_type' => array(
+        1 => array(100, 190, 200),
         2 => array(60, 174, 113),
         3 => array(255, 215, 0),
         4 => array(178, 34, 34),
@@ -97,6 +106,90 @@ return [
             'name' => 'Отключения',
             'name_file' => 'todo_disconnecting'
         )
+    ),
+    'requests_type' => array(
+        1 => array(
+            'name' =>'Все заявки',
+            'name_en' =>'all',
+            'color' => array(204, 153, 0),
+        ),
+        2 => array(
+            'name' =>'Заявки в покрытии',
+            'name_en' =>'net',
+            'color' => array(255, 102, 0),
+
+        ),
+        3 => array(
+            'name' =>'Подключенные домосетка',
+            'name_en' =>'connect_home',
+            'color' => array(51, 153 ,102),
+
+        ),
+        4 => array(
+            'name' =>'Подключенные корпоративы',
+            'name_en' =>'connect_corporate',
+            'color' => array(0, 255, 0),
+
+        ),
+        5 => array(
+            'name' =>'Все подключения',
+            'name_en' =>'connect_all',
+            'color' => array(204, 255, 51),
+
+        )
+    ),
+    'request_org' => array(
+        1 => array(
+            'org_id' => array(
+                7 => 'Кузя'
+            ),
+            'name' => 'Кузя',
+            'name_en' => 'kuzia'
+        ),
+        2 => array(
+            'org_id' => array(
+                0 => 'Альфа-инет'
+            ),
+            'name' => 'Альфа',
+            'name_en' => 'alfa'
+        ),
+        3 => array(
+            'org_id' => array(
+                11 => 'NLine'
+            ),
+            'name' => 'NLine',
+            'name_en' => 'nline'
+        ),
+        4 => array(
+            'org_id' => array(
+                1 => 'NetAssistVAT',
+                2 => 'Крышев-нет',
+                3 => 'Веббер',
+                4 => 'Феникс',
+                5 => 'LD',
+                11000 => 'City-Compass',
+                6 => 'k291',
+                8 => 'NetAsistNOVAT',
+                9 => 'Druid-MUA',
+                10 => 'Count-FOP',
+                12 => 'FOP_Parnicov',
+                13 => 'FOP less',
+            ),
+            'name' => 'Другие сети',
+            'name_en' => 'other'
+        ),
+        5 => array(
+            'org_id' => array(),
+            'name' => 'Все',
+            'name_en' => 'all'
+        ),
+        6 => array(
+            'org_id' => array(
+                -1 => 1,
+            ),
+            'name' => 'Без сетки',
+            'name_en' => 'nonet'
+        ),
     ),
     'todo_status' => array(
         1 => array(

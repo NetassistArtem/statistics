@@ -98,6 +98,11 @@ $config = [
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
                 [
+                    'pattern' => 'requests/no-data',
+                    'route' => 'site/no-data-requests',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
                     'pattern' => 'todo/<type:[1-6]>-<year:20[0-9][0-9]>-<month:[01][0-9]>/no-data-in-request',
                     'route' => 'site/no-data-in-request',
                     //'defaults' => ['page' => 1, 'tag' => ''],
@@ -252,6 +257,93 @@ $config = [
                     'route' => 'todo-time/todo-time-table',
                         //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
+
+
+
+
+
+
+
+
+
+                [
+                    'pattern' => 'requests/<org:[1-6]>',
+                    'route' => 'requests/requests-quantity-all',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'requests/<org:[1-6]>-<year:20[0-9][0-9]>',
+                    'route' => 'requests/requests-quantity-year',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'requests/<org:[1-6]>-<year:20[0-9][0-9]>/line',
+                    'route' => 'requests/requests-data-line',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'requests/<org:[1-6]>-<year:20[0-9][0-9]>/table',
+                    'route' => 'requests/requests-data-table',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'requests/<org:[1-6]>-<year:20[0-9][0-9]>-<month:[01][0-9]>',
+                    'route' => 'requests/requests-quantity-month',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'requests/<org:[1-6]>-<year:20[0-9][0-9]>-<month:[01][0-9]>/line',
+                    'route' => 'requests/requests-data-line',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'requests/<org:[1-6]>-<year:20[0-9][0-9]>-<month:[01][0-9]>/table',
+                    'route' => 'requests/requests-data-table',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+
+                [
+                    'pattern' => 'requests/<org:[1-6]>/table',
+                    'route' => 'requests/requests-data-table',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'requests/<org:[1-6]>/line',
+                    'route' => 'requests/requests-data-line',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'requests/select-data',
+                    'route' => 'requests/select-data',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'requests/select-data/line',
+                    'route' => 'requests/requests-data-line',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'requests/select-data/table',
+                    'route' => 'requests/requests-data-table',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'requests/<org:[1-6]>-<year:20[0-9][0-9]>-<month:[01][0-9]>/no-data-in-request',
+                    'route' => 'site/no-data-in-request',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'requests/<org:[1-6]>-<year:20[0-9][0-9]>/no-data-in-request',
+                    'route' => 'site/no-data-in-request',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'requests/multi-years',
+                    'route' => 'requests/select-data-multi-years',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+
+
 
             ],
         ],

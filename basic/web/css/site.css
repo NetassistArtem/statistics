@@ -166,6 +166,28 @@ a.desc:after {
     left: 24.5%;
     top: 5px;
 }
+.batton_position_9 {
+    left: 35%;
+    top: 5px;
+}
+.batton_position_10 {
+    left: 36%;
+    top: 5px;
+}
+
+.batton_position_11 {
+    left: 45.2%;
+
+}
+.batton_position_12 {
+    left: 44%;
+
+}
+.batton_position_13 {
+    left: 45%;
+
+}
+
 
 @media (min-width: 750px) {
     .month_details {
@@ -178,6 +200,14 @@ a.desc:after {
         width: 3.97%;
         margin-left: 1.75%;
         margin-right: 1.75%;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+    .month_column_2 {
+        height: 248px;
+        width: 6%;
+        margin-left: 0.75%;
+        margin-right: 0.75%;
         padding-right: 10px;
         padding-left: 10px;
     }
@@ -240,6 +270,12 @@ a.desc:after {
         margin-left: 1.75%;
         margin-right: 1.75%;
     }
+    .month_column_2 {
+        height: 328px;
+        width: 6%;
+        margin-left: 0.75%;
+        margin-right: 0.75%;
+    }
 
     .btn-lg {
         padding: 6px 12px;
@@ -299,6 +335,13 @@ a.desc:after {
         width: 3.97%;
         margin-left: 1.75%;
         margin-right: 1.75%;
+    }
+
+    .month_column_2 {
+        height: 398px;
+        width: 6%;
+        margin-left: 0.75%;
+        margin-right: 0.75%;
     }
 
     .btn-lg {
@@ -366,6 +409,17 @@ a.desc:after {
         padding-left: 10px;
     }
 
+    .month_column_2 {
+        height: 220px;
+        width: 6%;
+        margin-left: 0.75%;
+        margin-right: 0.75%;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+
+
     .batton_position_2 {
         left: 1%;
         top: 5px;
@@ -427,12 +481,16 @@ a.desc:after {
 .month_column_left {
     margin-left: 7.8%;
 }
+.month_column_left_2 {
+    margin-left: 6.8%;
+}
 
-a:hover span.month_column {
+a:hover span.month_column, a:hover span.month_column_2 {
     background-color: green;
     opacity: 0.2;
 
 }
+
 
 .thead_1 {
     font-weight: bold;
@@ -537,6 +595,10 @@ div.checkbox_left label {
 
 .dropdown:hover > .dropdown-menu {
     display: block;
+}
+.custom-position-alert{
+    margin-right: 30px;
+    margin-top: 15px;
 }
 
 

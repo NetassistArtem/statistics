@@ -4,6 +4,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use Yii;
 use app;
+use app\components\debugger\Debugger;
 
 $url_table = Yii::$app->request->url."/table";
 $url_compare = '/todo/multi-years';
@@ -100,4 +101,6 @@ $url_all = '/todo/'.$todo_type;
 
 <?php endif; ?>
 </div>
+
+<?php Debugger::Eho(microtime(true) - $GLOBALS['start_time']); ?>
 

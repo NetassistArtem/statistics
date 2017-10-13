@@ -123,13 +123,18 @@ class TodoController extends Controller
 
         // Dataset definition
         $DataSet = new \pData;
+
+
         $DataSet->SetXAxisFormat("date");
+        $DataSet->AddPoint($data_x, "series_1");
         foreach ($data_array_y as $k => $v) {
             $DataSet->AddPoint($v, "series_{$k}");
             $DataSet->AddSerie("series_{$k}");
         }
+      //  Debugger::PrintR($data_array_y);
 
-        $DataSet->AddPoint($data_x, "series_1");
+
+
 
 
         $DataSet->SetAbsciseLabelSerie("series_1");
@@ -188,7 +193,16 @@ class TodoController extends Controller
             }
         }
         $DataSet->AddSerie("series_data");
-        $Test->drawOverlayBarGraph($DataSet->GetData(), $DataSet->GetDataDescription(), 0);
+        $n_series =count($data_array_y);
+        $opacity = 0;
+        if(count($data_array_y)==1){
+            $opacity = 50;
+        }
+       // Debugger::Eho($n_series);
+       // Debugger::testDie();
+
+        $Test->drawOverlayBarGraph($DataSet->GetData(), $DataSet->GetDataDescription(), $opacity);
+
 
         // Write values
         $Test->setFontProperties(__DIR__ . '/../vendor/pChart/Fonts/tahoma.ttf', 12);
@@ -795,6 +809,7 @@ class TodoController extends Controller
 
         } else {
             $data_month = $this->todoData($todoModel, "Ymd", $start_period, $end_period, $todo_type, 1);
+
             if (empty($data_month['data'])) {
                 header("Location: /todo/$url_array[2]/no-data-in-request");
                 exit;

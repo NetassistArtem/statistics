@@ -11,6 +11,8 @@ $this->title = 'Запрашиваемые данные отсутствуют';
     <p>
         <?php if(isset($todo_status)): ?>
             Запрос на среднее время обработки TODO  - <b><?= $todo_type ?></b>, в статусе <b><?= $todo_status ?></b>
+            <?php elseif(isset($requests_net)): ?>
+            Запрос на количество заявок на подключение для сети  <b><?= $requests_net ?></b>
             <?php else: ?>
             Запрос на количество TODO  - <b><?= $todo_type ?></b>.
         <?php endif; ?>

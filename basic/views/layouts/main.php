@@ -10,6 +10,8 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
 AppAsset::register($this);
+
+$date_today = Yii::$app->formatter->asDate('now', 'yyyy');
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -55,7 +57,7 @@ AppAsset::register($this);
                 ),
                 'items' => [
                     ['label' => 'Общие графики', 'url' => '/charges',],
-                    ['label' => 'Детальные графики', 'url' => '/charges/5-2016',],
+                    ['label' => 'Детальные графики', 'url' => "/charges/5-{$date_today}",],
                     ['label' => 'График с выбором периода', 'url' => '/charges/select-data',],
                     ['label' => 'График сравнение по годам', 'url' => '/charges/multi-years',],
 
@@ -79,15 +81,33 @@ AppAsset::register($this);
                 'items' => [
                     '<li class="dropdown-header">Количесто TODO</li>',
                     ['label' => 'Графики за весь период', 'url' => '/todo/2',],
-                    ['label' => 'Детальные графики', 'url' => '/todo/2-2016',],
+                    ['label' => 'Детальные графики', 'url' => "/todo/2-{$date_today}",],
                     ['label' => 'График с выбором периода', 'url' => '/todo/select-data',],
 
                     '<li class="divider"></li>',
                     '<li class="dropdown-header">Время обработки TODO</li>',
-                    ['label' => 'Детальные графики', 'url' => '/todo-time/'.Yii::$app->params["default_value"]["todo_time"]["year_todo_type"].'-'.Yii::$app->formatter->asDate("now", "yyyy").'-'.Yii::$app->params["default_value"]["todo_time"]["year_todo_status"],],
+                    ['label' => 'Детальные графики', 'url' => '/todo-time/'.Yii::$app->params["default_value"]["todo_time"]["year_todo_type"].'-'.$date_today.'-'.Yii::$app->params["default_value"]["todo_time"]["year_todo_status"],],
                     ['label' => 'График с выбором периода', 'url' => '/todo-time/select-data',],
 
 
+                ],
+            ],
+            ['label' => 'Заявки на подключение', 'url' => '/requests',
+                'active' => (
+                    Yii::$app->request->url == "/requests" ||
+                    preg_match("/\/requests\/\d{1}-\d{4}-\d{1,2}/", Yii::$app->request->url) ||
+                    preg_match("/\/requests\/\d{1}-\d{4}/", Yii::$app->request->url) ||
+                    Yii::$app->request->url == "/requests/select-data" ||
+                    preg_match("/\/requests\/\d{1}/", Yii::$app->request->url) ||
+                    Yii::$app->request->url == "/requests/multi-years" ||
+                    Yii::$app->request->url == "/requests/no-data"
+
+                ),
+                'items' => [
+                    ['label' => 'Общие графики', 'url' => '/requests/5',],
+                    ['label' => 'Детальные графики', 'url' => "/requests/5-{$date_today}",],
+                    ['label' => 'График с выбором периода', 'url' => '/requests/select-data',],
+                    ['label' => 'График сравнение по годам', 'url' => '/requests/multi-years',],
                 ],
             ],
             Yii::$app->user->isGuest ? (

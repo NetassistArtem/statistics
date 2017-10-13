@@ -110,6 +110,14 @@ class SiteController extends Controller
 
         return $this->render('no-data', ['date_today' => $date_today, 'date_before' => $date_before]);
     }
+    public function actionNoDataRequests()
+    {
+
+        $date_before = Yii::$app->params['date-before-requests'];
+        $date_today = Yii::$app->formatter->asDate('now', 'yyyy-MM-dd');
+
+        return $this->render('no-data', ['date_today' => $date_today, 'date_before' => $date_before]);
+    }
 
     public function actionNoDataInRequest()
     {
@@ -117,6 +125,8 @@ class SiteController extends Controller
         $url_array = explode('/', $url);
         $param_array = explode("-", $url_array[2]);
         $todo_status = null;
+        $requests_net = null;
+        $todo_type = null;
         if (isset($param_array[2])) {
             $request_date = $param_array[1] . '-' . $param_array[2];
         } else {
@@ -148,10 +158,35 @@ class SiteController extends Controller
                 $todo_status = Yii::$app->params['todo_status_for_time'][$param_array[2]]['name'];
                 $request_date = $param_array[1];
             }
+        } elseif ($url_array[1] == 'requests') {
+            if ($url_array[2] == 'select-data') {
+               if(Yii::$app->request->post()){
+                    $todo_type = Yii::$app->request->post('TodoTimeForm')['todo_type'];
+                    $todo_status =  Yii::$app->request->post('TodoTimeForm')['todo_status'];
+                    $request_date = Yii::$app->request->post('TodoTimeForm')['year_from'].' - '.(Yii::$app->request->post('TodoTimeForm')['year_to'] + 1);
+                }else{
+                    $todo_type = Yii::$app->params['todo_type'][2]['name'];
+                    $todo_status =  Yii::$app->params['todo_status_for_time'][11]['name'];
+
+                    $date_today = Yii::$app->formatter->asDate('now', 'yyyy');
+
+                    $request_date =($date_today) - Yii::$app->params['year-period-select-data']. ' - '.($date_today);
+
+                }
+
+            } else {
+                $requests_net = Yii::$app->params['request_org'][$param_array[0]]['name'];
+                $request_date = $param_array[1];
+            }
         } else {
             $todo_type = '';
         }
 
-        return $this->render('no-data-in-request', ['request_date' => $request_date, 'todo_type' => $todo_type, 'todo_status' => $todo_status]);
+        return $this->render('no-data-in-request', [
+            'request_date' => $request_date,
+            'todo_type' => $todo_type,
+            'todo_status' => $todo_status,
+            'requests_net' => $requests_net,
+        ]);
     }
 }

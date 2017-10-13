@@ -19,8 +19,9 @@ NavBar::begin([
 
 ?>
 
-
-<div><?php echo Yii::$app->session->has('dateHight') ? Yii::$app->session->getFlash('dateHight')[0] : ''; ?></div>
+<?php if(Yii::$app->session->has('dateHight')): ?>
+<div class="alert alert-danger custom-position-alert" ><?= Yii::$app->session->getFlash('dateHight')[0]; ?></div>
+<?php endif; ?>
 <div class="row">
 
     <?php $form = ActiveForm::begin(['id' => 'todo-form', 'options' => ['class' => '']]); ?>
