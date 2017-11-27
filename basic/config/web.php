@@ -8,6 +8,7 @@ $config = [
     'homeUrl'=> '/statistics/charges-by-network',
 
     'bootstrap' => ['log'],
+    'timeZone' => 'Europe/Kiev',
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -41,6 +42,19 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
+        'db2' => require (__DIR__ . '/db2.php'),
+        'db3' => require (__DIR__ . '/db3.php'),
+        'db4' => require (__DIR__ . '/db4.php'),
+
+        'formatter' => [
+            'class' => 'yii\i18n\Formatter',
+            'defaultTimeZone' => 'Europe/Kiev',
+           // 'defaultTimeZone' => date_default_timezone_set('Europe/Kiev'),
+           // 'timeZone' => 'GMT+2',
+            //'dateFormat' => 'd MMMM yyyy',
+            //'datetimeFormat' => 'd-M-Y H:i:s',
+            //'timeFormat' => 'H:i:s',
+        ],
 
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -62,28 +76,29 @@ $config = [
                     'route' => 'site/about',
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
+
                 [
-                    'pattern' => 'charges/<type:[1-5]>-<year:20[0-9][0-9]>',
+                    'pattern' => 'charges/<type:[1-7]>-<year:20[0-9][0-9]>',
                     'route' => 'statistics/charges-year',
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
                 [
-                    'pattern' => 'charges/<type:[1-5]>-<year:20[0-9][0-9]>-<month:[01][0-9]>',
+                    'pattern' => 'charges/<type:[1-7]>-<year:20[0-9][0-9]>-<month:[01][0-9]>',
                     'route' => 'statistics/charges-month',
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
                 [
-                    'pattern' => 'charges/<type:[1-5]>-<year:20[0-9][0-9]>-<month:[01][0-9]>/table',
+                    'pattern' => 'charges/<type:[1-7]>-<year:20[0-9][0-9]>-<month:[01][0-9]>/table',
                     'route' => 'statistics/get-data-table',
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
                 [
-                    'pattern' => 'charges/<type:[1-5]>-<year:20[0-9][0-9]>/table',
+                    'pattern' => 'charges/<type:[1-7]>-<year:20[0-9][0-9]>/table',
                     'route' => 'statistics/get-data-table',
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
                 [
-                    'pattern' => 'charges/<type:[1-5]>/table',
+                    'pattern' => 'charges/<type:[1-7]>/table',
                     'route' => 'statistics/get-data-table',
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
@@ -128,22 +143,22 @@ $config = [
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
                 [
-                    'pattern' => 'charges/<type:[1-5]>-<year:20[0-9][0-9]>/line',
+                    'pattern' => 'charges/<type:[1-7]>-<year:20[0-9][0-9]>/line',
                     'route' => 'statistics/get-data-line',
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
                 [
-                    'pattern' => 'charges/<type:[1-5]>-<year:20[0-9][0-9]>-<month:[01][0-9]>/line',
+                    'pattern' => 'charges/<type:[1-7]>-<year:20[0-9][0-9]>-<month:[01][0-9]>/line',
                     'route' => 'statistics/get-data-line',
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
                 [
-                    'pattern' => 'charges/<type:[1-5]>/<year:20[0-9][0-9]><years:(-20[0-9][0-9]){1,8}>',
+                    'pattern' => 'charges/<type:[1-7]>/<year:20[0-9][0-9]><years:(-20[0-9][0-9]){1,8}>',
                     'route' => 'statistics/charges-multi-year',
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
                 [
-                    'pattern' => 'charges/<type:[1-5]>/<year:20[0-9][0-9]><years:(-20[0-9][0-9]){1,8}>/table',
+                    'pattern' => 'charges/<type:[1-7]>/<year:20[0-9][0-9]><years:(-20[0-9][0-9]){1,8}>/table',
                     'route' => 'statistics/get-data-table',
                     //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
@@ -342,6 +357,49 @@ $config = [
                     'route' => 'requests/select-data-multi-years',
                         //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
+
+
+
+
+                [
+                    'pattern' => 'switchdown/realtime',
+                    'route' => 'switchdown/realtime',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'switchdown/realtime-old',
+                    'route' => 'switchdown/realtime-old',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'switchdown/get-linked-switch',
+                    'route' => 'switchdown/get-linked-switch',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'switchdown/get-history/<year:20[0-9][0-9]>-<month:[01][0-9]>-<days:[0-3][0-9]>',
+                    'route' => 'switchdown/get-history-day',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'switchdown/get-history/<year:20[0-9][0-9]>-<month:[01][0-9]>',
+                    'route' => 'switchdown/get-history-day',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+
+                [
+                    'pattern' => 'switchdown/get-history/<year:20[0-9][0-9]>',
+                    'route' => 'switchdown/get-history-day',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
+                    'pattern' => 'switchdown/get-history/from-<year:20[0-9][0-9]>-<month:[01][0-9]>-<days:[0-3][0-9]>-to-<year2:20[0-9][0-9]>-<month2:[01][0-9]>-<days2:[0-3][0-9]>',
+                    'route' => 'switchdown/get-history-day',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+
+
+
 
 
 

@@ -173,9 +173,16 @@ class StatisticsController extends Controller
         $Test->Render(__DIR__ . '/../web/images/' . $file_name . '.png');
     }
 
-    private function chartCreater4($file_name, $chart_name, $data_y, $data_x, $name_y, $name_x, $date_format,
-                                   $max_YAxis, $data_y2, $data_y3, $data_y4, $data_y5)
+    private function chartCreater4($file_name, $chart_name, array $data_y_array, $data_x, $name_y, $name_x, $date_format,
+                                   $max_YAxis, array $data_name_array, array $data_color_array)
     {
+        //Debugger::PrintR($data_y);
+        //Debugger::PrintR($data_y2);
+        //Debugger::PrintR($data_y3);
+        //Debugger::PrintR($data_y4);
+        //Debugger::PrintR($data_y5);
+        //Debugger::PrintR($data_y6);
+        //Debugger::testDie();
         include_once(__DIR__ . '/../vendor/pChart/pChart/pData.class');
         include_once(__DIR__ . '/../vendor/pChart/pChart/pChart.class');
 
@@ -184,36 +191,39 @@ class StatisticsController extends Controller
 
         $DataSet->SetXAxisFormat("date");
         $DataSet->AddPoint($data_x, "series_1");
-        $DataSet->AddPoint($data_y2, "series_3");
-        $DataSet->AddPoint($data_y, "series_2");
 
-        $DataSet->AddPoint($data_y3, "series_4");
-        $DataSet->AddPoint($data_y4, "series_5");
-        $DataSet->AddPoint($data_y5, "series_6");
+        $series_array = array();
 
-        // $DataSet->ImportFromCSV(__DIR__ . '/../vendor/pChart/Sample/bulkdata.csv',",",array(1,2,3),FALSE,0);
-        $DataSet->AddSerie("series_2");
-        $DataSet->AddSerie("series_3");
-        $DataSet->AddSerie("series_4");
-        $DataSet->AddSerie("series_5");
-        $DataSet->AddSerie("series_6");
+        foreach($data_y_array as $k => $v){
+          //  $i ++;
+            $DataSet->AddPoint($v, "series_$k");
+            $series_array[] = "series_$k";
+        }
+
+                foreach($data_y_array as $k => $v){
+                    $DataSet->AddSerie("series_$k");
+                }
+
+
         $DataSet->SetAbsciseLabelSerie("series_1");
-        $DataSet->SetSerieName("Все абоненты", "series_2");
-        $DataSet->SetSerieName("Домашние абоненты", "series_3");
-        $DataSet->SetSerieName("Бизнес-домосеть", "series_4");
-        $DataSet->SetSerieName("Бизнес абоненты магистральные", "series_5");
-        $DataSet->SetSerieName("Домосеть", "series_6");
+        foreach($data_y_array as $k => $v){
+
+            $DataSet->SetSerieName($data_name_array[$k], "series_$k");
+
+        }
+
         $DataSet->SetYAxisName($name_y);
         $DataSet->SetXAxisName($name_x);
 
 
         // Initialise the graph
         $Test = new \pChart(1170, 545);
-        $Test->setColorPalette(0, 105, 105, 105);
-        $Test->setColorPalette(1, 100, 149, 237);
-        $Test->setColorPalette(2, 60, 179, 113);
-        $Test->setColorPalette(3, 255, 215, 0);
-        $Test->setColorPalette(4, 178, 34, 34);
+$i = 0;
+        foreach($data_color_array as $key => $val){
+            $Test->setColorPalette($i, $val[0], $val[1], $val[2]);
+            $i++;
+        }
+
         $Test->setDateFormat($date_format);
         $Test->setFixedScale(0, $max_YAxis, 10);
         $Test->setFontProperties(__DIR__ . '/../vendor/pChart/Fonts/tahoma.ttf', 8);
@@ -235,7 +245,7 @@ class StatisticsController extends Controller
 
         // Write values
         $Test->setFontProperties(__DIR__ . '/../vendor/pChart/Fonts/tahoma.ttf', 12);
-        $Test->writeValues($DataSet->GetData(), $DataSet->GetDataDescription(), array("series_2", "series_3", "series_4", "series_5", "series_6"));
+        $Test->writeValues($DataSet->GetData(), $DataSet->GetDataDescription(), $series_array);
 
         // Finish the graph
         $Test->setFontProperties(__DIR__ . '/../vendor/pChart/Fonts/tahoma.ttf', 8);
@@ -361,6 +371,12 @@ class StatisticsController extends Controller
                 break;
             case 5 :
                 return Yii::$app->params['users_type'][5];
+                break;
+            case 6 :
+                return Yii::$app->params['users_type'][6];
+                break;
+            case 7 :
+                return Yii::$app->params['users_type'][7];
                 break;
             default:
                 return Yii::$app->params['users_type'][1];
@@ -498,7 +514,7 @@ class StatisticsController extends Controller
      * например $format = "Ym" то $start_period = 502 (означает 2005 02),
      * например $format = "Ymd" то $start_period = 50223 (означает 2005 02 23),
      */
-    private function totalCharges(Charges $chargesModel, $format, $start_period, $end_period, $net_id_operator, $net_id, $user_class, $user_class_unuse = 0)
+    private function totalCharges(Charges $chargesModel, $format, $start_period, $end_period, $net_id_operator, $net_id, $user_class, $user_class_unuse = 0, $additional_condition = '')
     {
 
         if ($format == 'Y') {
@@ -521,11 +537,21 @@ class StatisticsController extends Controller
             throw new \PDOException('Введен не правильный формат даты');
         }
 
+        //    $data_test = $chargesModel->ChargesByNetworkTest($scale, $start_period, $end_period, $net_id_operator, $net_id, $user_class, $user_class_unuse,200, "=");
+        //    Debugger::PrintR($data_test);
+        //    Debugger::testDie();
 
-        $data = $chargesModel->ChargesByNetwork($scale, $start_period, $end_period, $net_id_operator, $net_id, $user_class, $user_class_unuse);
+
+//Debugger::Eho($start_period);
+  //      Debugger::Eho('</br>');
+      //  $additional_condition =
+        $data = $chargesModel->ChargesByNetwork($scale, $start_period, $end_period, $net_id_operator, $net_id, $user_class, $user_class_unuse, $additional_condition);
+
 //Debugger::PrintR($data);
+
         $e_p = $end_period < 100 ? $end_period : round($end_period / 100);
         $s_p = $start_period < 100 ? $start_period : round($end_period / 100);
+
 
         if ($format == 'Ym' && $e_p - $s_p <= 1) {
 
@@ -702,81 +728,257 @@ class StatisticsController extends Controller
         return $data;
     }
 
+    private function fileWrite($data,$file_name)
+    {
+        $serialize_data = serialize($data);
+        file_put_contents($file_name, $serialize_data);
+    }
+    private function getFileContent($file_name)
+    {
+        if(file_exists($file_name)){
+            $data = file_get_contents($file_name);
+            return unserialize($data);
+        }else {
+            return false;
+        }
+    }
+    private function timeFileRewrite($data)//возвращает True если надо записывать файл и false если не надо, true также если данных нет
+    {
+        if($data){
+            end($data['home']['data']);
+            $last_key =  key($data['home']['data']);
+            $last_year = $data['home']['data'][$last_key]['ts'];
+            $year_today = Yii::$app->formatter->asDate('now', 'yy');
+            $dif = $year_today - $last_year;
+            if($dif > 1){
+                return true;
+            }else{
+                return false;
+            }
+          //  Debugger::Eho($last_year);
+         //   Debugger::Eho('</br>');
+          //  Debugger::Eho($year_today);
+        }else{
+           return true;
+        }
+
+
+       // Debugger::Eho($last_key);
+       // Debugger::testDie();
+
+    }
+
 
     public function actionChargesByNetwork()
     {
         $chargesModel = new Charges();
-        /*
-                $date_today = Yii::$app->formatter->asDate(time(),'Y');
-                $date_end_array = str_split($date_today,2);
 
-               $data = $chargesModel->ChargesByNetwork("100/100/100/10000","5",$date_end_array[1]+1,"<",101,0);
-              //  print_r($data);
 
-                //print_r($data);
-                $data_time = array();
-                $data_charge = array();
-                foreach($data as $key=>$val){
-                    $d = $this->dateParsing($val['ts']);
-                   // print_r($data[$val]);
-                  //  $data[$key]['ts'] = $d;
-                    $data_charge[] = $val['pay']/1000;
-                    $data_time[] = $d ; //$val['ts'];
+        $file_data = $this->getFileContent('charges_total.php');
 
-                   // print_r($data_time);
+        $time_start_rewrite = $this->timeFileRewrite($file_data);
+       // Debugger::VarDamp($time_start_rewrite);
+       // Debugger::PrintR($file_data);
+        $date_today = Yii::$app->formatter->asDate('now', 'yy');
+        if(!$file_data || $time_start_rewrite){
+
+            $data_file_write = array();
+
+            $date_to = $date_today;
+      //  Debugger::Eho($date_to);
+       // Debugger::testDie();
+            for ($i = 1; $i <= 7; $i++){
+                $user_type_data = $this->usersType($i);
+
+                $data_file_write[$user_type_data['name_teh']] = $this->totalCharges($chargesModel, "Y", "5", $date_to, $user_type_data['net_id_operator'], $user_type_data['net_id'], $user_type_data['user_class'], $user_type_data['user_class_unuse'], $user_type_data['additional_condition']);
+
+            }
+            /**
+            $data2_home = $this->totalCharges($chargesModel, "Y", "5", $date_to, "<", 101, 0);
+            $data2_business_homenetwork = $this->totalCharges($chargesModel, "Y", "5", $date_to, "<=", 199, 1);
+            $data2_business_trunk = $this->totalCharges($chargesModel, "Y", "5", $date_to, "=", 200, 1);
+            $data2_homenetwork = $this->totalCharges($chargesModel, "Y", "5", $date_to, "<=", 199, '', 1);
+            $data2_providers = $this->totalCharges($chargesModel, "Y", "5", $date_to, "=", 301, '', 1);
+            $data2_all = $this->totalCharges($chargesModel, "Y", "5", $date_to, "<=", 200, '', 1);
+            $data_file_write = array(
+                'home' => $data2_home,
+                'business_homenetwork' => $data2_business_homenetwork,
+                'homenetwork' => $data2_homenetwork,
+                'business_trunk' => $data2_business_trunk,
+                'providers' => $data2_providers,
+                'all' => $data2_all,
+            );
+             * **/
+      //      Debugger::testDie();
+
+            $data_f_w2 = array();
+            foreach($data_file_write as $k => $v){
+                if(count($v['data_charge']) < count($data_file_write['all']['data_charge'])){
+                    foreach($data_file_write['all']['data_time'] as $key => $val ){
+                        $n = array_search( $val, $v['data_time']);
+
+                        if($n !== false){
+                            $data_f_w2[$k]['data_charge'][$key] = $v['data_charge'][$n];
+                            $data_f_w2[$k]['data'][$key] = $v['data'][$n];
+                        }else{
+                            $data_f_w2[$k]['data_charge'][$key] = 0;
+                            $data_f_w2[$k]['data'][$key]['ts'] = $data_file_write['all']['data'][$key]['ts'];
+                            $data_f_w2[$k]['data'][$key]['pay'] = 0;
+
+
+                        }
+
+                    }
+                    $data_f_w2[$k]['data_time'] = $data_file_write['all']['data_time'];
+
+
+                }else{
+                    $data_f_w2[$k] = $v;
                 }
-                */
+            }
+           // Debugger::PrintR($data_f_w2);
 
-        $data_home = $this->totalCharges($chargesModel, "Y", "5", 0, "<", 101, 0);
+
+
+
+            $this->fileWrite($data_f_w2,'charges_total.php');
+            $file_data = $this->getFileContent('charges_total.php');
+        }
+
+
+
+        //Debugger::PrintR($this->getFileContent('charges_total.php'));
+        //Debugger::testDie();
+       // Debugger::PrintR($file_data);
+       // Debugger::testDie();
+        $label = $chargesModel->attributeLabels();
+        $data_total = array();
+
+        for ($i = 1; $i <= 7; $i++){
+            $user_type_data = $this->usersType($i);
+            $teh_name = $user_type_data['name_teh'];
+
+            $data_{$teh_name} = $this->totalCharges($chargesModel, "Y", $date_today, 0, $user_type_data['net_id_operator'], $user_type_data['net_id'], $user_type_data['user_class'],  $user_type_data['user_class_unuse'], $user_type_data['additional_condition']);
+         //   Debugger::PrintR($data_{$teh_name});
+            $data_{$teh_name.'_all'} = array(
+                'data_charge' => array_merge($file_data[$teh_name]['data_charge'],$data_{$teh_name}['data_charge']),
+                'data_time' => array_merge($file_data[$teh_name]['data_time'],$data_{$teh_name}['data_time']),
+                'data' => array_merge($file_data[$teh_name]['data'],$data_{$teh_name}['data']),
+            );
+            //$data_te =$this->getFileContent('test.php');
+            // Debugger::PrintR($data_te);
+
+            $chart_name_{$teh_name} = 'charges_by_network_'.$teh_name;
+            $color_pallet_{$teh_name} = Yii::$app->params['colors_statistic'][$i];
+            $max_y_scale_{$teh_name} = max($data_{$teh_name.'_all'}['data_charge'])+500;
+            $this->chartCreater1($chart_name_{$teh_name}, $user_type_data['name'], $data_{$teh_name.'_all'}['data_charge'], $data_{$teh_name.'_all'}['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', $max_y_scale_{$teh_name}, 90, $color_pallet_{$teh_name});
+            $data_total[$teh_name]['data'] = $data_{$teh_name.'_all'}['data'];
+            $data_total[$teh_name]['chart_name'] = $chart_name_{$teh_name};
+            $data_total[$teh_name]['data_charge'] = $data_{$teh_name.'_all'}['data_charge'];
+            $data_total[$teh_name]['data_time'] = $data_{$teh_name.'_all'}['data_time'];
+            $data_total[$teh_name]['max_y_scale'] = $max_y_scale_{$teh_name};
+            $data_total[$teh_name]['name'] = $user_type_data['name'];
+            $data_total[$teh_name]['color_pallet'] = $color_pallet_{$teh_name};
+            $data_total[$teh_name]['n'] = $i;
+        }
+       // Debugger::PrintR($data_total);
+       // Debugger::testDie();
+/**
+
+        $data_home = $this->totalCharges($chargesModel, "Y", $date_today, 0, "<", 101, 0);
+        $data_home_all = array(
+            'data_charge' => array_merge($file_data['home']['data_charge'],$data_home['data_charge']),
+            'data_time' => array_merge($file_data['home']['data_time'],$data_home['data_time']),
+            'data' => array_merge($file_data['home']['data'],$data_home['data']),
+        );
+        //$data_te =$this->getFileContent('test.php');
+       // Debugger::PrintR($data_te);
         $label = $chargesModel->attributeLabels();
         $chart_name_home = 'charges_by_network_home';
         $color_pallet_home = array(100, 149, 237);
         $max_y_scale_home = max($data_home['data_charge'])+500;
-        $this->chartCreater1('charges_by_network_home', "Домашние абоненты", $data_home['data_charge'], $data_home['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', $max_y_scale_home, 90, $color_pallet_home);
+        $this->chartCreater1('charges_by_network_home', "Домашние абоненты", $data_home_all['data_charge'], $data_home_all['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', $max_y_scale_home, 90, $color_pallet_home);
 
-        $data_business_homenetwork = $this->totalCharges($chargesModel, "Y", "5", 0, "<=", 199, 1);
+        $data_business_homenetwork = $this->totalCharges($chargesModel, "Y", $date_today, 0, "<=", 199, 1);
+        $data_business_homenetwork_all = array(
+            'data_charge' => array_merge($file_data['business_homenetwork']['data_charge'],$data_business_homenetwork['data_charge']),
+            'data_time' => array_merge($file_data['business_homenetwork']['data_time'],$data_business_homenetwork['data_time']),
+            'data' => array_merge($file_data['business_homenetwork']['data'],$data_business_homenetwork['data']),
+        );
+       // Debugger::PrintR($data_business_homenetwork_all);
         $chart_name_business_homenetwork = 'charges_by_network_business_homenetwork';
         $color_pallet_business_homenetwork = array(60, 179, 113);
         $max_y_scale_business_homenetwork = max($data_business_homenetwork['data_charge'])+500;
-        $this->chartCreater1('charges_by_network_business_homenetwork', "Бизнес абоненты с домосетью", $data_business_homenetwork['data_charge'], $data_business_homenetwork['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', $max_y_scale_business_homenetwork, 90, $color_pallet_business_homenetwork);
+        $this->chartCreater1('charges_by_network_business_homenetwork', "Бизнес абоненты с домосетью", $data_business_homenetwork_all['data_charge'], $data_business_homenetwork_all['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', $max_y_scale_business_homenetwork, 90, $color_pallet_business_homenetwork);
 
-        $data_business_trunk = $this->totalCharges($chargesModel, "Y", "5", 0, "=", 200, 1);
+        $data_business_trunk = $this->totalCharges($chargesModel, "Y", $date_today, 0, "=", 200, 1);
+        $data_business_trunk_all = array(
+            'data_charge' => array_merge($file_data['business_trunk']['data_charge'],$data_business_trunk['data_charge']),
+            'data_time' => array_merge($file_data['business_trunk']['data_time'],$data_business_trunk['data_time']),
+            'data' => array_merge($file_data['business_trunk']['data'],$data_business_trunk['data']),
+        );
         $chart_name_business_trunk = 'charges_by_network_business_trunk';
         $color_pallet_business_trunk = array(255, 215, 0);
         $max_y_scale_business_trunk = max($data_business_trunk['data_charge'])+500;
-        $this->chartCreater1('charges_by_network_business_trunk', "Бизнес абоненты магистральные", $data_business_trunk['data_charge'], $data_business_trunk['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', $max_y_scale_business_trunk, 90, $color_pallet_business_trunk);
+        $this->chartCreater1('charges_by_network_business_trunk', "Бизнес абоненты магистральные", $data_business_trunk_all['data_charge'], $data_business_trunk_all['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', $max_y_scale_business_trunk, 90, $color_pallet_business_trunk);
 
-        $data_homenetwork = $this->totalCharges($chargesModel, "Y", "5", 0, "<=", 199, '', 1);
+        $data_homenetwork = $this->totalCharges($chargesModel, "Y", $date_today, 0, "<=", 199, '', 1);
+        $data_homenetwork_all = array(
+            'data_charge' => array_merge($file_data['homenetwork']['data_charge'],$data_homenetwork['data_charge']),
+            'data_time' => array_merge($file_data['homenetwork']['data_time'],$data_homenetwork['data_time']),
+            'data' => array_merge($file_data['homenetwork']['data'],$data_homenetwork['data']),
+        );
         $chart_name_homenetwork = 'charges_by_network_homenetwork';
         $color_pallet_homenetwork = array(178, 34, 34);
         $max_y_scale_homenetwork = max($data_homenetwork['data_charge'])+500;
-        $this->chartCreater1('charges_by_network_homenetwork', "Домосеть", $data_homenetwork['data_charge'], $data_homenetwork['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', $max_y_scale_homenetwork, 90, $color_pallet_homenetwork);
+        $this->chartCreater1('charges_by_network_homenetwork', "Домосеть", $data_homenetwork_all['data_charge'], $data_homenetwork_all['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', $max_y_scale_homenetwork, 90, $color_pallet_homenetwork);
 
-        $data_all = $this->totalCharges($chargesModel, "Y", "5", 0, "<=", 200, '', 1);
+        $data_providers = $this->totalCharges($chargesModel, "Y", $date_today, 0, "=", 301, '', 1);
+        $data_providers_all = array(
+            'data_charge' => array_merge($file_data['providers']['data_charge'],$data_providers['data_charge']),
+            'data_time' => array_merge($file_data['providers']['data_time'],$data_providers['data_time']),
+            'data' => array_merge($file_data['providers']['data'],$data_providers['data']),
+        );
+        $chart_name_providers = 'charges_by_providers';
+        $color_pallet_providers = array(255, 000, 255);
+        $max_y_scale_providers = max($data_providers['data_charge'])+500;
+        $this->chartCreater1('charges_by_network_providers', "Провайдеры", $data_providers_all['data_charge'], $data_providers_all['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', $max_y_scale_providers, 90, $color_pallet_providers);
+
+
+        $data_all = $this->totalCharges($chargesModel, "Y", $date_today, 0, "<=", 200, '', 1);
+        $data_all_all = array(
+            'data_charge' => array_merge($file_data['all']['data_charge'],$data_all['data_charge']),
+            'data_time' => array_merge($file_data['all']['data_time'],$data_all['data_time']),
+            'data' => array_merge($file_data['all']['data'],$data_all['data']),
+        );
         $chart_name_all = 'charges_by_network_all';
         $color_pallet_all = array(105, 105, 105);
         $max_y_scale_all = max($data_all['data_charge'])+500;
-        $this->chartCreater1('charges_by_network_all', "Все абоненты", $data_all['data_charge'], $data_all['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', $max_y_scale_all, 90, $color_pallet_all);
+        $this->chartCreater1('charges_by_network_all', "Все абоненты", $data_all_all['data_charge'], $data_all_all['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y', $max_y_scale_all, 90, $color_pallet_all);
 
-
+**/
+       // Debugger::PrintR($data_total);
+        $data_y_array = array();
+        $data_name_array = array();
+        $data_color_array = array();
+        foreach($data_total as $k => $v){
+            $data_y_array[$k] = $v['data_charge'];
+            $data_name_array[$k] = $v['name'];
+            $data_color_array[$k] = $v['color_pallet'];
+        }
         $chart_name_allinone = 'charges_by_network_allinone';
-        $this->chartCreater4('charges_by_network_allinone', "Все абоненты", $data_all['data_charge'], $data_all['data_time'],
-            'Выручка, тысяч грн', 'Дата', 'Y', $max_y_scale_all, $data_home['data_charge'], $data_business_homenetwork['data_charge'], $data_business_trunk['data_charge'], $data_homenetwork['data_charge']);
+        $this->chartCreater4('charges_by_network_allinone', "Все абоненты", $data_y_array, $data_total['all']['data_time'],
+            'Выручка, тысяч грн', 'Дата', 'Y', $data_total['all']['max_y_scale'], $data_name_array, $data_color_array);
+
 
 
         return $this->render('charges_by_network', [
-            'data_home' => $data_home['data'],
+
             'label' => $label,
-            'chart_name_home' => $chart_name_home,
-            'data_business_homenetwork' => $data_business_homenetwork['data'],
-            'chart_name_business_homenetwork' => $chart_name_business_homenetwork,
-            'chart_name_business_trunk' => $chart_name_business_trunk,
-            'data_business_trunk' => $data_business_trunk['data'],
-            'chart_name_homenetwork' => $chart_name_homenetwork,
-            'data_homenetwork' => $data_homenetwork['data'],
-            'chart_name_all' => $chart_name_all,
-            'data_all' => $data_all['data'],
+            'chart_name_home' =>  $data_total['home']['chart_name'],
+            'year_now' => Yii::$app->formatter->asDate('now', 'Y'),
             'chart_name_allinone' => $chart_name_allinone,
+            'data' => $data_total,
         ]);
 
     }
@@ -797,7 +999,7 @@ class StatisticsController extends Controller
 
         $users_type = $this->usersType($param_array[0]);
 
-        $user_class_unuse = $param_array[0] > 3 ? 1 : 0;
+        $user_class_unuse = $users_type['user_class_unuse'];//  $param_array[0] > 3 ? 1 : 0;
 
         //print_r($year_start);
 
@@ -810,16 +1012,16 @@ class StatisticsController extends Controller
         $chart_name_year = 'charges_by_network_all';
 
         if (isset($url_array[3]) && $url_array[3] == 'line') {
-            $data_year = $this->totalCharges($chargesModel, "Ymd", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse);
+            $data_year = $this->totalCharges($chargesModel, "Ymd", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse, $users_type['additional_condition']);
 
             $max_y_scale = max($data_year['data_charge']) < 60 ? 60 : (max($data_year['data_charge']) + 5);
 
             $this->chartCreater2($users_type['name_file'], $graph_name, $data_year['data_charge'], $data_year['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y-m-d', $max_y_scale, 90, Yii::$app->params['colors_statistic'][$param_array[0]], 7);
 
         } else {
-            $data_year = $this->totalCharges($chargesModel, "Ym", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse);
+            $data_year = $this->totalCharges($chargesModel, "Ym", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse, $users_type['additional_condition']);
 
-            $max_y_scale = max($data_year['data_charge']) < 600 ? 600 : (max($data_year['data_charge']) + 50);
+            $max_y_scale = (max($data_year['data_charge']) < 600 && max($data_year['data_charge']) > 200 )? 600 : (max($data_year['data_charge']) + 50);
 
             $month_number = count($data_year['data_time']);
             if ($month_number < 12) {
@@ -899,7 +1101,7 @@ class StatisticsController extends Controller
 
         $users_type = $this->usersType($param_array[0]);
 
-        $user_class_unuse = $param_array[0] > 3 ? 1 : 0;
+        $user_class_unuse = $users_type['user_class_unuse'];// $param_array[0] > 3 ? 1 : 0;
 
         $chargesModel = new Charges();
 
@@ -910,7 +1112,7 @@ class StatisticsController extends Controller
         $graph_name = $users_type['name'] . ', ' . $param_array[1] . ' год, ' . $param_array[2] . ' месяц';
 
         if (isset($url_array[3]) && $url_array[3] == 'line') {
-            $data_month = $this->totalCharges($chargesModel, "Ymd", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse);
+            $data_month = $this->totalCharges($chargesModel, "Ymd", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse, $users_type['additional_condition']);
 
             $max_y_scale = max($data_month['data_charge']) < 50 ? 50 : (max($data_month['data_charge']) + 5);
             $text_angle = count($data_month['data']) < 15 ? 0 : 90;
@@ -918,7 +1120,7 @@ class StatisticsController extends Controller
             $this->chartCreater1($users_type['name_file'], $graph_name, $data_month['data_charge'], $data_month['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y-m-d', $max_y_scale, $text_angle, Yii::$app->params['colors_statistic'][$param_array[0]], 1);
 
         } else {
-            $data_month = $this->totalCharges($chargesModel, "Ymd", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse);
+            $data_month = $this->totalCharges($chargesModel, "Ymd", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse, $users_type['additional_condition']);
             $max_y_scale = max($data_month['data_charge']) < 50 ? 50 : (max($data_month['data_charge']) + 5);
 
             $text_angle = count($data_month['data']) < 15 ? 0 : 90;
@@ -1055,14 +1257,14 @@ class StatisticsController extends Controller
 
         $users_type_array = $this->usersType($users_type);
 
-        $user_class_unuse = $users_type > 3 ? 1 : 0;
+        $user_class_unuse = $users_type_array['user_class_unuse'];// $users_type > 3 ? 1 : 0;
 
-        $data = $this->totalCharges($chargesModel, "Ym", $start_period, $end_period, $users_type_array['net_id_operator'], $users_type_array['net_id'], $users_type_array['user_class'], $user_class_unuse);
+        $data = $this->totalCharges($chargesModel, "Ym", $start_period, $end_period, $users_type_array['net_id_operator'], $users_type_array['net_id'], $users_type_array['user_class'], $user_class_unuse, $users_type_array['additional_condition']);
         $chart_name_year = 'charges_by_network_all';
 
         $graph_name = $users_type_array['name'] . '. Период с  ' . ((int)$start_period + 2000) . '-01 по, ' . ((int)$end_period + 1999) . '-12.';
 
-        $max_y_scale = max($data['data_charge']) < 600 ? 600 : (max($data['data_charge']) + 50);
+        $max_y_scale = (max($data['data_charge']) < 600 && max($data['data_charge']) > 200) ? 600 : (max($data['data_charge']) + 50);
 
         $text_angle = count($data['data']) < 15 ? 0 : 90;
         $this->chartCreater3($users_type_array['name_file'], $graph_name, $data['data_charge'], $data['data_time'], 'Выручка, тысяч грн', 'Дата', 'Y-m', $max_y_scale, $text_angle, Yii::$app->params['colors_statistic'][$users_type]);
@@ -1085,7 +1287,7 @@ class StatisticsController extends Controller
             $years_array[$i - 2000] = $i;
         }
         $users_type_a = array();
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 6; $i++) {
             $users_type_a[$i] = $this->usersType($i)['name'];
         }
 
@@ -1121,7 +1323,7 @@ class StatisticsController extends Controller
         $users_type = $this->usersType($url_array[2]);
 
 
-        $user_class_unuse = $url_array[2] > 3 ? 1 : 0;
+        $user_class_unuse = $users_type['user_class_unuse'];//  $url_array[2] > 3 ? 1 : 0;
 
         //print_r($year_start);
 
@@ -1143,7 +1345,7 @@ class StatisticsController extends Controller
          *
          * } else {
          * */
-        $data_year = $this->totalCharges($chargesModel, "Ym", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse);
+        $data_year = $this->totalCharges($chargesModel, "Ym", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse, $users_type['additional_condition']);
 
         $data_year_f_s = $this->multiYearsDataParsing($data_year['data'], $start_period, $end_period);
         $data_years_simple = $data_year_f_s['simple'];
@@ -1167,7 +1369,7 @@ class StatisticsController extends Controller
         }
         $max_data = max($data_max_array);
 
-        $max_y_scale = $max_data < 600 ? 600 : ($max_data + 50);
+        $max_y_scale = ($max_data < 600 && $max_data > 200) ? 600 : ($max_data + 50);
 
         $this->chartCreater5($users_type['name_file'], $graph_name, $data_y_array, $data_time, 'Выручка, тысяч грн', 'Дата, месяц', $max_y_scale, 0);
         //    }
@@ -1261,12 +1463,12 @@ class StatisticsController extends Controller
         $years_string = trim($years_string, '-');
 
 
-        $user_class_unuse = $users_ty > 3 ? 1 : 0;
+        $user_class_unuse = $users_type['user_class_unuse'];// $users_ty > 3 ? 1 : 0;
 
         $graph_name = $users_type['name'] . ', ' . $years_string . ' год';
         $chart_name_year = 'charges_by_network_all';
 
-        $data_year = $this->totalCharges($chargesModel, "Ym", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse);
+        $data_year = $this->totalCharges($chargesModel, "Ym", $start_period, $end_period, $users_type['net_id_operator'], $users_type['net_id'], $users_type['user_class'], $user_class_unuse, $users_type['additional_condition']);
 
         $data_year_f_s = $this->multiYearsDataParsing($data_year['data'], $start_period, $end_period);
         $data_years_simple = $data_year_f_s['simple'];
@@ -1292,7 +1494,7 @@ class StatisticsController extends Controller
         }
         $max_data = max($data_max_array);
 
-        $max_y_scale = $max_data < 600 ? 600 : ($max_data + 50);
+        $max_y_scale = ($max_data < 600 && $max_data > 200) ? 600 : ($max_data + 50);
 
         $this->chartCreater5($users_type['name_file'], $graph_name, $data_y_array, $data_time, 'Выручка, тысяч грн', 'Дата, месяц', $max_y_scale, 0);
 
@@ -1314,7 +1516,7 @@ class StatisticsController extends Controller
         //die('ups');
 
         $users_type_a = array();
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 7; $i++) {
             $users_type_a[$i] = $this->usersType($i)['name'];
         }
 

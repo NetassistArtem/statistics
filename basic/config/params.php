@@ -23,7 +23,10 @@ return [
         2 => array(60, 174, 113),
         3 => array(255, 215, 0),
         4 => array(178, 34, 34),
+        6 => array(255, 000, 255),
+        7 => array(255, 0, 0),
         5 => array(105, 105, 105),
+
     ),
     'colors_requests_type' => array(
         1 => array(100, 190, 200),
@@ -36,38 +39,76 @@ return [
         1 => array(
             'net_id' => 101,
             'user_class' => 0,
+            'user_class_unuse' => 0,
             'net_id_operator' => '<',
+            'additional_condition' => '',
             'name' => 'Домашние абоненты',
-            'name_file' => 'charge_year_home'
+            'name_file' => 'charge_year_home',
+            'name_teh' => 'home',
         ),
         2 => array(
             'net_id' => 199,
             'user_class' => 1,
+            'user_class_unuse' => 0,
             'net_id_operator' => '<=',
+            'additional_condition' => '',
             'name' => 'Бизнес абоненты  домосети',
-            'name_file' => 'charge_year_business_homenetwork'
+            'name_file' => 'charge_year_business_homenetwork',
+            'name_teh' => 'business_homenetwork',
         ),
         3 => array(
             'net_id' => 200,
             'user_class' => 1,
+            'user_class_unuse' => 0,
             'net_id_operator' => '=',
+            'additional_condition' => '',
             'name' => 'Бизнес абоненты магистральные',
-            'name_file' => 'charge_year_business_trunk'
+            'name_file' => 'charge_year_business_trunk',
+            'name_teh' => 'business_trunk',
         ),
         4 => array(
             'net_id' => 199,
             'user_class' => '',
+            'user_class_unuse' => 1,
             'net_id_operator' => '<=',
+            'additional_condition' => '',
             'name' => 'Домосеть',
-            'name_file' => 'charge_year_homenetwork'
+            'name_file' => 'charge_year_homenetwork',
+            'name_teh' => 'homenetwork',
         ),
+        6 => array(
+            'net_id' => 301,
+            'user_class' => 1,
+            'user_class_unuse' => 0,
+            'net_id_operator' => '=',
+            'additional_condition' => '',
+            'name' => 'Провайдеры',
+            'name_file' => 'charge_provider',
+            'name_teh' => 'provider',
+        ),
+        7 => array(
+            'net_id' => 200,
+            'user_class' => 1,
+            'user_class_unuse' => 0,
+            'net_id_operator' => '<=',
+            'additional_condition' => 'OR accounts.net_id = 301',
+            'name' => 'Корпоративы',
+            'name_file' => 'charge_corporate',
+            'name_teh' => 'corporate',
+        ),
+
+
         5 => array(
             'net_id' => 200,
             'user_class' => '',
+            'user_class_unuse' => 1,
             'net_id_operator' => '<=',
+            'additional_condition' => 'OR accounts.net_id = 301',
             'name' => 'Все абоненты',
-            'name_file' => 'charge_year_all'
+            'name_file' => 'charge_year_all',
+            'name_teh' => 'all',
         ),
+
     ),
     'todo_type' => array(
         1 => array(
@@ -482,5 +523,11 @@ return [
             'year_year' => 2016,
         )
     ),
+    'switchdown_start_year' => 2016,
+    'switchdown_realtime_interval' => 120,//Для данныйх падения свичей в реалтайме интервал времени в секундах. Данные выводятся в интервале от "время сейча" - "время сейчас - данный интервал"
+    'switchdown_realtime_items_per_page' => 20,
+    'switchdown_history_items_per_page' => 30,
+    'switchdown_write_interval' => 3600, //время в секундах.(3600 - час, 43200 - 12 часов, 86400 - сутки)Время между записью данных из биллинга иссинги в базу switch_down_history
+    'switchdown_write_time_limit' => 2592000, //время в секундах, максимальный временной интервал выборки данных из базы исинги
 ];
 

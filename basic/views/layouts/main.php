@@ -12,6 +12,9 @@ use app\assets\AppAsset;
 AppAsset::register($this);
 
 $date_today = Yii::$app->formatter->asDate('now', 'yyyy');
+$now_year_month = Yii::$app->formatter->asDate('now', 'Y-MM');
+$now_year_month_day = Yii::$app->formatter->asDate('now', 'Y-MM-dd');
+$start_year_month_day = Yii::$app->formatter->asDate((time() - 172800), 'Y-MM-dd');
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -108,6 +111,22 @@ $date_today = Yii::$app->formatter->asDate('now', 'yyyy');
                     ['label' => 'Детальные графики', 'url' => "/requests/5-{$date_today}",],
                     ['label' => 'График с выбором периода', 'url' => '/requests/select-data',],
                     ['label' => 'График сравнение по годам', 'url' => '/requests/multi-years',],
+                ],
+            ],
+            ['label' => 'Падение свичей', 'url' => '/switchdown',
+                'active' => (
+                    Yii::$app->request->url == "/switchdown" ||
+                    Yii::$app->request->url == "/switchdown/realtime" ||
+                    preg_match("/\/switchdown\/get-history\/\d{4}-\d{2}-\d{2}/", Yii::$app->request->url) ||
+                    preg_match("/\/switchdown\/get-history\/\d{4}-\d{2}/", Yii::$app->request->url) ||
+                    preg_match("/\/switchdown\/get-history\/\d{4}/", Yii::$app->request->url)
+                ),
+                'items' => [
+                    ['label' => 'Данные RealTime', 'url' => '/switchdown/realtime',],
+                    ['label' => 'Данные по годам', 'url' => "/switchdown/get-history/$date_today",],
+                    ['label' => 'Данные по месяцам', 'url' => "/switchdown/get-history/$now_year_month",],
+                    ['label' => 'Данные по днмя', 'url' => "/switchdown/get-history/$now_year_month_day",],
+                    ['label' => 'Данные с выбором периода', 'url' => "/switchdown/get-history/from-$start_year_month_day-to-$now_year_month_day",],
                 ],
             ],
             Yii::$app->user->isGuest ? (

@@ -37,6 +37,8 @@ $url_compare = '/charges/multi-years';
             ['label' => 'Бизнес-домосеть', 'url' => "/charges/2-$year", 'active' => ("/charges/2-$year" == Yii::$app->request->url || "/charges/2-$year/line" == Yii::$app->request->url)],
             ['label' => 'Бизнес-магистральные', 'url' => "/charges/3-$year", 'active' => ("/charges/3-$year" == Yii::$app->request->url || "/charges/3-$year/line" == Yii::$app->request->url)],
             ['label' => 'Домосеть', 'url' => "/charges/4-$year", 'active' => ("/charges/4-$year" == Yii::$app->request->url || "/charges/4-$year/line" == Yii::$app->request->url)],
+            ['label' => 'Провайдеры', 'url' => "/charges/6-$year", 'active' => ("/charges/6-$year" == Yii::$app->request->url || "/charges/6-$year/line" == Yii::$app->request->url)],
+            ['label' => 'Корпоративы', 'url' => "/charges/7-$year", 'active' => ("/charges/7-$year" == Yii::$app->request->url || "/charges/7-$year/line" == Yii::$app->request->url)],
             ['label' => 'Все', 'url' => "/charges/5-$year", 'active' => ("/charges/5-$year" == Yii::$app->request->url || "/charges/5-$year/line" == Yii::$app->request->url)],
             "<li class='batton_position_1'><p ><a class='btn btn-default btn-lg' href='$url_compare'> График сравнения </a></p></li>",
             "<li class='batton_position_2'><p ><a class='btn btn-default btn-lg' href=".$url_table.">Таблица данных</a></p></li>"

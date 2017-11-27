@@ -36,6 +36,8 @@ $url_years = '/charges/'.$user_type.'-'.$date_today;
             ['label' => 'Бизнес-домосеть', 'url' => "/charges/2/$year_string", 'active' => ("/charges/2/$year_string" == Yii::$app->request->url || "/charges/2/$year_string/line" == Yii::$app->request->url)],
             ['label' => 'Бизнес-магистральные', 'url' => "/charges/3/$year_string", 'active' => ("/charges/3/$year_string" == Yii::$app->request->url || "/charges/3/$year_string/line" == Yii::$app->request->url)],
             ['label' => 'Домосеть', 'url' => "/charges/4/$year_string", 'active' => ("/charges/4/$year_string" == Yii::$app->request->url || "/charges/4/$year_string/line" == Yii::$app->request->url)],
+            ['label' => 'Провайдеры', 'url' => "/charges/6/$year_string", 'active' => ("/charges/6/$year_string" == Yii::$app->request->url || "/charges/6/$year_string/line" == Yii::$app->request->url)],
+            ['label' => 'Корпоративы', 'url' => "/charges/7/$year_string", 'active' => ("/charges/7/$year_string" == Yii::$app->request->url || "/charges/7/$year_string/line" == Yii::$app->request->url)],
             ['label' => 'Все', 'url' => "/charges/5/$year_string", 'active' => ("/charges/5/$year_string" == Yii::$app->request->url || "/charges/5/$year_string/line" == Yii::$app->request->url)],
             "<li class='batton_position_1'><p ><a class='btn btn-default btn-lg' href='$url_years'> График по месяцам </a></p></li>",
             "<li class='batton_position_2'><p ><a class='btn btn-default btn-lg' href=".$url_table.">Таблица данных</a></p></li>"

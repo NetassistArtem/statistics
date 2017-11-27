@@ -128,13 +128,13 @@ a.desc:after {
 }
 
 .batton_position_2 {
-    left: 11%;
+    left: 1%;
     top: 5px;
 
 }
 
 .batton_position_1 {
-    left: 10%;
+    left: 0;
     top: 5px;
 
 }
@@ -213,7 +213,7 @@ a.desc:after {
     }
 
     .batton_position_2 {
-        left: 1%;
+        left:1%;
         top: 5px;
 
     }
@@ -352,13 +352,13 @@ a.desc:after {
     }
 
     .batton_position_2 {
-        left: 11%;
+        left: 1%;
         top: 5px;
 
     }
 
     .batton_position_1 {
-        left: 10%;
+        left: 0;
         top: 5px;
 
     }
@@ -427,7 +427,7 @@ a.desc:after {
     }
 
     .batton_position_1 {
-        left: 1%;
+        left: 0;
         top: 5px;
 
     }
@@ -570,6 +570,14 @@ a:hover span.month_column, a:hover span.month_column_2 {
     background-color: rgb(105, 105, 105);
 
 }
+.btn-color-6 {
+    background-color: rgb(255, 000, 255);
+
+}
+.btn-color-7 {
+    background-color: rgb(255, 0, 0);
+
+}
 
 .button-position {
 
@@ -599,6 +607,46 @@ div.checkbox_left label {
 .custom-position-alert{
     margin-right: 30px;
     margin-top: 15px;
+}
+.tr-color-1{
+    background-color: #ebffe5;
+}
+.tr-color-2{
+    background-color: #fffcbf;
+}
+.tr-color-3{
+    background-color: #e2e7ff;
+}
+.table-custom-1{
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.time-filter-block{
+    background-color: #eef4ed;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    border-radius: 2px;
+}
+.time-filter-block > p {
+    text-align: center;
+    margin-top: 7px;
+    font-size: larger;
+    font-weight: bold;
+ /*   background-color: #e6ede6;*/
+}
+.custom-legend:hover::after{
+    content: attr(data-title); /* Выводим текст */
+    position: absolute; /* Абсолютное позиционирование */
+    left: 20%; top: 30%; /* Положение подсказки */
+    z-index: 1; /* Отображаем подсказку поверх других элементов */
+    background: rgba(255,255,230,0.9); /* Полупрозрачный цвет фона */
+    font-family: Arial, sans-serif; /* Гарнитура шрифта */
+    font-size: 11px; /* Размер текста подсказки */
+    padding: 5px 10px; /* Поля */
+    border: 1px solid #333; /* Параметры рамки */
+    width: 200px;
+
+}
+.margin-bottom-3{
+    margin-bottom: 7px;
 }
 
 
