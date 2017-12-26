@@ -122,7 +122,11 @@ $start_year_month_day = Yii::$app->formatter->asDate((time() - 172800), 'Y-MM-dd
                     preg_match("/\/switchdown\/get-history\/\d{4}/", Yii::$app->request->url)
                 ),
                 'items' => [
-                    ['label' => 'Данные RealTime', 'url' => '/switchdown/realtime',],
+                    '<li class="dropdown-header">Данные RealTime</li>',
+                    ['label' => 'RealTime (обновление статуса СЕЙЧАС)', 'url' => '/switchdown/realtime',],
+                    ['label' => 'RealTime (обновление статуса ДАВНО)', 'url' => '/switchdown/realtime-old',],
+                    '<li class="divider"></li>',
+                    '<li class="dropdown-header">История падения свичей</li>',
                     ['label' => 'Данные по годам', 'url' => "/switchdown/get-history/$date_today",],
                     ['label' => 'Данные по месяцам', 'url' => "/switchdown/get-history/$now_year_month",],
                     ['label' => 'Данные по днмя', 'url' => "/switchdown/get-history/$now_year_month_day",],

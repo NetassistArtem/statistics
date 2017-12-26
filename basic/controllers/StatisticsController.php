@@ -1287,7 +1287,7 @@ $i = 0;
             $years_array[$i - 2000] = $i;
         }
         $users_type_a = array();
-        for ($i = 1; $i <= 6; $i++) {
+        for ($i = 1; $i <= 7; $i++) {
             $users_type_a[$i] = $this->usersType($i)['name'];
         }
 

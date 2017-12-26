@@ -730,7 +730,7 @@ class TodoController extends Controller
                 'data' => $data_year['data_todo']
             );
 */
-
+Debugger::PrintR($data_array_y);
             $this->chartCreater3($todo_type['name_file'], $graph_name, $data_array_y, $data_year['data_time'], 'Количество заявок', 'Дата', 'Y-m', $max_y_scale, 0, Yii::$app->params['colors_todo'][$param_array[0]]);
         }
         $line = 0;

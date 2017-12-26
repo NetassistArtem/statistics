@@ -132,9 +132,12 @@ where  ptime_stamp2 between :period_from and :time_limit and enable=0  and net_i
             );
 
             $data = Yii::$app->db->createCommand("select todo_id,init_time, subj,ref_net_id,todo_state from todo_list
- where init_time between :period_from and :period_to and ver=0 and todo_type= :todo_type $todo_loc  ORDER BY init_time")
+ where init_time between :period_from and :period_to and back_ver=0 and todo_type= :todo_type $todo_loc  ORDER BY init_time")
                 ->bindValues($params)
                 ->queryAll();
+           // ->rawSql;
+           // Debugger::Eho($data);
+           // Debugger::testDie();
         } elseif ($sql_type && $sql_type == 2) {
 
             $params = array(
@@ -147,6 +150,9 @@ where  ptime_stamp2 between :period_from and :time_limit and enable=0  and net_i
          ref_net_id<>1000 and admin_id<>-1 $todo_loc ORDER BY init_time")
                 ->bindValues($params)
                 ->queryAll();
+            //->rawSql;
+            //Debugger::Eho($data);
+            //Debugger::testDie();
         } elseif ($sql_type && $sql_type == 3) {
 
            // Debugger::Eho($p_mid_e);
@@ -159,12 +165,12 @@ where  ptime_stamp2 between :period_from and :time_limit and enable=0  and net_i
             );
 
             $data_1 = Yii::$app->db->createCommand("select todo_id,init_time, subj,ref_net_id,todo_state from todo_list
- where init_time between :period_from and :period_to and ver=0 and todo_type= :todo_type $todo_loc ORDER BY init_time")
+ where init_time between :period_from and :period_to and back_ver=0 and todo_type= :todo_type $todo_loc ORDER BY init_time")
                 ->bindValues($params)
                 ->queryAll();
-               //->rawSql;
-          //  Debugger::Eho($data_1);
-          //  Debugger::testDie();
+             //  ->rawSql;
+           // Debugger::Eho($data_1);
+            //Debugger::testDie();
 
             $params = array(
                 ':period_from' => $p_mid_e,
@@ -175,6 +181,9 @@ where  ptime_stamp2 between :period_from and :time_limit and enable=0  and net_i
          ref_net_id<>1000 and admin_id<>-1 $todo_loc ORDER BY init_time")
                 ->bindValues($params)
                 ->queryAll();
+            //->rawSql;
+           // Debugger::Eho($data_2);
+           // Debugger::testDie();
 
 
             $data = array_merge($data_1, $data_2);

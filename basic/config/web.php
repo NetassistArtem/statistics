@@ -377,6 +377,11 @@ $config = [
                         //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
                 [
+                    'pattern' => 'switchdown/get-history/from-<year:20[0-9][0-9]>-<month:[01][0-9]>-<days:[0-3][0-9]>-to-<year2:20[0-9][0-9]>-<month2:[01][0-9]>-<days2:[0-3][0-9]>',
+                    'route' => 'switchdown/get-history-day',
+                        //'defaults' => ['page' => 1, 'tag' => ''],
+                ],
+                [
                     'pattern' => 'switchdown/get-history/<year:20[0-9][0-9]>-<month:[01][0-9]>-<days:[0-3][0-9]>',
                     'route' => 'switchdown/get-history-day',
                         //'defaults' => ['page' => 1, 'tag' => ''],
@@ -392,11 +397,7 @@ $config = [
                     'route' => 'switchdown/get-history-day',
                         //'defaults' => ['page' => 1, 'tag' => ''],
                 ],
-                [
-                    'pattern' => 'switchdown/get-history/from-<year:20[0-9][0-9]>-<month:[01][0-9]>-<days:[0-3][0-9]>-to-<year2:20[0-9][0-9]>-<month2:[01][0-9]>-<days2:[0-3][0-9]>',
-                    'route' => 'switchdown/get-history-day',
-                        //'defaults' => ['page' => 1, 'tag' => ''],
-                ],
+
 
 
 
